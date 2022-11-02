@@ -22,7 +22,7 @@ public class User implements Serializable{
     }
 
     public User() {
-
+        this("","","");
     }
 
     public String getId() {
