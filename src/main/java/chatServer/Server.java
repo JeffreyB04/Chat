@@ -28,31 +28,82 @@ public class Server {
     }
     
     public void run(){
+//        IService service = new Service();
+//
+//        boolean continuar = true;
+//        ObjectInputStream in=null;
+//        ObjectOutputStream out=null;
+//        Socket skt=null;
+//        while (continuar) {
+//            try {
+//                skt = srv.accept();
+//                in = new ObjectInputStream(skt.getInputStream());
+//                out = new ObjectOutputStream(skt.getOutputStream() );
+//                System.out.println("Conexion Establecida...");
+//                User user=this.login(in,out,service);
+//                Worker worker = new Worker(this,in,out,user, service);
+//                workers.add(worker);
+//                worker.start();
+//            }
+//            catch (IOException | ClassNotFoundException ex) {}
+//            catch (Exception ex) {
+//                try {
+//                    out.writeInt(Protocol.ERROR_LOGIN);
+//                    out.flush();
+//                    skt.close();
+//                } catch (IOException ex1) {}
+//               System.out.println("Conexion cerrada...");
+//            }
+//        }
         IService service = new Service();
 
         boolean continuar = true;
         ObjectInputStream in=null;
         ObjectOutputStream out=null;
         Socket skt=null;
+        int method;
         while (continuar) {
             try {
                 skt = srv.accept();
                 in = new ObjectInputStream(skt.getInputStream());
-                out = new ObjectOutputStream(skt.getOutputStream() );
+                out = new ObjectOutputStream(skt.getOutputStream());
                 System.out.println("Conexion Establecida...");
-                User user=this.login(in,out,service);                          
-                Worker worker = new Worker(this,in,out,user, service); 
-                workers.add(worker);                      
-                worker.start();                                                
-            }
-            catch (IOException | ClassNotFoundException ex) {}
-            catch (Exception ex) {
-                try {
-                    out.writeInt(Protocol.ERROR_LOGIN);
-                    out.flush();
-                    skt.close();
-                } catch (IOException ex1) {}
-               System.out.println("Conexion cerrada...");
+                method = in.readInt();
+                switch (method) {
+                    case Protocol.LOGIN:
+                        try {
+                            User user = service.login((User) in.readObject());
+                            out.writeInt(Protocol.ERROR_NO_ERROR);
+                            out.writeObject(user);
+                            out.flush();
+                            Worker worker = new Worker(this, in, out, user, service);
+                            workers.add(worker);
+                            worker.start();
+                        } catch (Exception ex) {
+                            out.writeInt(Protocol.ERROR_LOGIN);
+                            out.flush();
+                            skt.close();
+                            System.out.println("Conexion cerrada...");
+                        }
+                        break;
+                    case Protocol.REGISTER:
+                        try {
+                            service.register((User) in.readObject());
+                            out.writeInt(Protocol.ERROR_NO_ERROR);
+                            out.flush();
+                        } catch (Exception ex) {
+                            out.writeInt(Protocol.ERROR_REGISTER);
+                            out.flush();
+                            skt.close();
+                            System.out.println("Conexion cerrada...");
+                        }
+                        break;
+                    default:
+                        out.writeInt(Protocol.ERROR_LOGIN);
+                        out.flush();
+                        out.close();
+                        System.out.println("Conexion cerrada...");
+                }
             }
         }
     }

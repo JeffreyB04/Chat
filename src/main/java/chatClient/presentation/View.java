@@ -5,13 +5,10 @@ import chatProtocol.Message;
 import chatProtocol.User;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.text.DefaultCaret;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Observable;
 import java.util.Observer;
 
 public class View implements Observer {
@@ -26,6 +23,7 @@ public class View implements Observer {
     private JTextField mensaje;
     private JButton post;
     private JButton logout;
+    private JButton register;
 
     Model model;
     Controller controller;
@@ -71,6 +69,21 @@ public class View implements Observer {
             public void actionPerformed(ActionEvent e) {
                 String text = mensaje.getText();
                 controller.post(text);
+            }
+        });
+        register.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JTextField nombre = new JTextField("");
+                Object[] fields = {"Nombre:", nombre};
+                int option = JOptionPane.showConfirmDialog(panel,fields,id.getText(), JOptionPane.OK_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE);
+                if(option == JOptionPane.OK_OPTION){
+                    try {
+                        controller.register(new User(id.getText(), new String(clave.getPassword()), nombre.getText()));
+                    }catch (Exception ex){
+                        JOptionPane.showMessageDialog(panel, ex.getMessage(),"ERROR", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
             }
         });
     }

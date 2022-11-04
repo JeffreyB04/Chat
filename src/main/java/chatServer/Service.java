@@ -31,5 +31,10 @@ public class Service implements IService{
 
     public void logout(User p) throws Exception{
         //nothing to do
-    }    
+    }
+
+    @Override
+    public void register(Message m) {
+
+    }
 }

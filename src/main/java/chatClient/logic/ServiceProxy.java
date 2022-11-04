@@ -66,6 +66,8 @@ public class ServiceProxy implements IService{
             return null;
         }
     }
+
+   // public void
     
     public void logout(User u) throws Exception{
         out.writeInt(Protocol.LOGOUT);
@@ -83,7 +85,11 @@ public class ServiceProxy implements IService{
         } catch (IOException ex) {
             
         }   
-    }  
+    }
+
+   public void register(User u) throws Exception{
+
+   }
 
     // LISTENING FUNCTIONS
    boolean continuar = true;    

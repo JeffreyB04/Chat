@@ -35,6 +35,14 @@ public class Controller {
         model.commit(Model.CHAT);
     }
 
+    public void register(String text){
+        Message message = new Message();
+        message.setMessage(text);
+        message.setSender(model.getCurrentUser());
+        ServiceProxy.instance().post(message);
+        model.commit(Model.CHAT);
+    }
+
     public void logout(){
         try {
             ServiceProxy.instance().logout(model.getCurrentUser());
