@@ -22,7 +22,7 @@ public class Controller {
     }
 
     public void login(User u) throws Exception{
-        User logged=ServiceProxy.instance().login(u);
+        User logged=ServiceProxy.instance().login(u); //solo los que esten ahi
         model.setCurrentUser(logged);
         model.commit(Model.USER);
     }
@@ -35,12 +35,16 @@ public class Controller {
         model.commit(Model.CHAT);
     }
 
-    public void register(String text){
-        Message message = new Message();
-        message.setMessage(text);
-        message.setSender(model.getCurrentUser());
-        ServiceProxy.instance().post(message);
-        model.commit(Model.CHAT);
+    public void register(User u) throws Exception {
+      //  Message message = new Message();
+      //  message.setMessage(text);
+      //  message.setSender(model.getCurrentUser());
+      //  ServiceProxy.instance().post(message);
+      //  model.commit(Model.CHAT);
+
+       // User registered =ServiceProxy.instance().register(u); //solo los que esten ahi
+       // model.setCurrentUser(registered);
+       // model.commit(Model.USER);
     }
 
     public void logout(){

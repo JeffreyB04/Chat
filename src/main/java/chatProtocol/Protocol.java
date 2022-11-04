@@ -2,8 +2,8 @@ package chatProtocol;
 
 public class Protocol {
 
-    public static final String SERVER = "localhost";
-    public static final int PORT = 3306; //1234
+    public static final String SERVER = "PC11LAB1005";  //nombre de la maquina
+    public static final int PORT = 1234; //1234
 
     public static final int LOGIN=1;
     public static final int LOGOUT=2;    

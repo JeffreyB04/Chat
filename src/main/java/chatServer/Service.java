@@ -20,21 +20,30 @@ public class Service implements IService{
     public void post(Message m){
         // if wants to save messages, ex. recivier no logged on
     }
-    
+
+    @Override
+    public void register(User u) throws Exception {
+        usuarioDao.create(u);
+    }
+
     public User login(User p) throws Exception{
+        usuarioDao.read(p.getId());
+        p.getClave();
+            return p;
+        }
+
         //for(User u:data.getUsers()) if(p.equals(u)) return u;
         //throw new Exception("User does not exist");
-        usuarioDao.create(p);
-        return p;
+        //usuarioDao.create(p);
+        //return p;
         //p.setNombre(p.getId()); return p;
-    } 
+
 
     public void logout(User p) throws Exception{
         //nothing to do
     }
 
-    @Override
-    public void register(Message m) {
-
-    }
+   // @Override
+   // public void register(Message m) {
+    // }
 }

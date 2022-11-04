@@ -13,7 +13,7 @@ import chatProtocol.Message;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ServiceProxy implements IService{
+public class ServiceProxy implements IService{ //representa a alguien que esta lejano
     private static IService theInstance;
     public static IService instance(){
         if (theInstance==null){ 
@@ -66,8 +66,6 @@ public class ServiceProxy implements IService{
             return null;
         }
     }
-
-   // public void
     
     public void logout(User u) throws Exception{
         out.writeInt(Protocol.LOGOUT);
@@ -88,6 +86,9 @@ public class ServiceProxy implements IService{
     }
 
    public void register(User u) throws Exception{
+        out.writeInt(Protocol.REGISTER);
+        out.writeObject(u);
+        out.flush();
 
    }
 

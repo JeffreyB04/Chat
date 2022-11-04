@@ -8,7 +8,7 @@ import java.io.ObjectOutputStream;
 import chatProtocol.IService;
 import chatProtocol.Message;
 
-public class Worker {
+public class Worker {  //empieza cuando se logea
     Server srv;
     ObjectInputStream in;
     ObjectOutputStream out;

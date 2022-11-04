@@ -28,34 +28,34 @@ public class Server {
     }
     
     public void run(){
-//        IService service = new Service();
-//
-//        boolean continuar = true;
-//        ObjectInputStream in=null;
-//        ObjectOutputStream out=null;
-//        Socket skt=null;
-//        while (continuar) {
-//            try {
-//                skt = srv.accept();
-//                in = new ObjectInputStream(skt.getInputStream());
-//                out = new ObjectOutputStream(skt.getOutputStream() );
-//                System.out.println("Conexion Establecida...");
-//                User user=this.login(in,out,service);
-//                Worker worker = new Worker(this,in,out,user, service);
-//                workers.add(worker);
-//                worker.start();
-//            }
-//            catch (IOException | ClassNotFoundException ex) {}
-//            catch (Exception ex) {
-//                try {
-//                    out.writeInt(Protocol.ERROR_LOGIN);
-//                    out.flush();
-//                    skt.close();
-//                } catch (IOException ex1) {}
-//               System.out.println("Conexion cerrada...");
-//            }
-//        }
         IService service = new Service();
+
+      boolean continuar = true;
+     ObjectInputStream in=null;
+       ObjectOutputStream out=null;
+        Socket skt=null;
+        while (continuar) {
+            try {
+               skt = srv.accept();
+               in = new ObjectInputStream(skt.getInputStream());
+                out = new ObjectOutputStream(skt.getOutputStream() );
+                System.out.println("Conexion Establecida...");
+               User user=this.login(in,out,service);
+               Worker worker = new Worker(this,in,out,user, service);
+               workers.add(worker);
+                worker.start();
+            }
+            catch (IOException | ClassNotFoundException ex) {}
+            catch (Exception ex) {
+               try {
+                   out.writeInt(Protocol.ERROR_LOGIN);
+                   out.flush();
+                   skt.close();
+               } catch (IOException ex1) {}
+               System.out.println("Conexion cerrada...");
+           }
+        }
+        /*IService service = new Service();
 
         boolean continuar = true;
         ObjectInputStream in=null;
@@ -104,9 +104,15 @@ public class Server {
                         out.close();
                         System.out.println("Conexion cerrada...");
                 }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
+
         }
+         */
+
     }
+
     
     private User login(ObjectInputStream in,ObjectOutputStream out,IService service) throws IOException, ClassNotFoundException, Exception{
         int method = in.readInt();
