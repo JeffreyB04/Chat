@@ -28,7 +28,7 @@ public class Server {
     }
     
     public void run(){
-        IService service = new Service();
+        /*IService service = new Service();
 
       boolean continuar = true;
      ObjectInputStream in=null;
@@ -55,7 +55,7 @@ public class Server {
                System.out.println("Conexion cerrada...");
            }
         }
-        /*IService service = new Service();
+        */IService service = new Service();
 
         boolean continuar = true;
         ObjectInputStream in=null;
@@ -72,7 +72,7 @@ public class Server {
                 switch (method) {
                     case Protocol.LOGIN:
                         try {
-                            User user = service.login((User) in.readObject());
+                            User user = service.login((User) in.readObject()); //no se por que el login no lo esta agarrando desde el metodo de abajo
                             out.writeInt(Protocol.ERROR_NO_ERROR);
                             out.writeObject(user);
                             out.flush();
@@ -109,7 +109,7 @@ public class Server {
             }
 
         }
-         */
+
 
     }
 

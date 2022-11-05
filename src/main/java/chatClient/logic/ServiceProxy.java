@@ -85,12 +85,23 @@ public class ServiceProxy implements IService{ //representa a alguien que esta l
         }   
     }
 
-   public void register(User u) throws Exception{
-        out.writeInt(Protocol.REGISTER);
-        out.writeObject(u);
-        out.flush();
+   public void register(User u) throws Exception {
+       out.writeInt(Protocol.REGISTER);
+       out.writeObject(u);
+       out.flush();
+       int response = in.readInt();
+       if (response==Protocol.ERROR_NO_ERROR){
+           User u1=(User) in.readObject();
+           this.start();
+       }
+       else {
+           disconnect();
+           throw new Exception("No remote user");
+       }
 
    }
+
+
 
     // LISTENING FUNCTIONS
    boolean continuar = true;    
