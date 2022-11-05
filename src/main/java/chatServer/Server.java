@@ -55,8 +55,8 @@ public class Server {
                System.out.println("Conexion cerrada...");
            }
         }
-        */IService service = new Service();
-
+        */
+        IService service = new Service();
         boolean continuar = true;
         ObjectInputStream in=null;
         ObjectOutputStream out=null;
@@ -107,10 +107,7 @@ public class Server {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-
         }
-
-
     }
 
     
