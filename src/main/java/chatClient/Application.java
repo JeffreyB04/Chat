@@ -3,6 +3,7 @@ package chatClient;
 import chatClient.presentation.Controller;
 import chatClient.presentation.Model;
 import chatClient.presentation.View;
+import chatServer.Service;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -16,7 +17,6 @@ public class Application {
         catch (Exception ex) {};
 
         window = new JFrame();
-
         Model model= new Model();
         View view = new View();
         Controller controller =new Controller(view, model);
@@ -28,6 +28,7 @@ public class Application {
         } catch (Exception e) {}
         window.setContentPane(view.getPanel());
         window.setVisible(true);
+        Service.instance().store(); // no estoy seguro de eso
     }
 
     public static JFrame window;

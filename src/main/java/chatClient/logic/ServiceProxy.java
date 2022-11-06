@@ -10,8 +10,6 @@ import java.net.Socket;
 import javax.swing.SwingUtilities;
 import chatProtocol.IService;
 import chatProtocol.Message;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ServiceProxy implements IService{ //representa a alguien que esta lejano
     private static IService theInstance;
@@ -85,7 +83,7 @@ public class ServiceProxy implements IService{ //representa a alguien que esta l
         }   
     }
 
-   public void register(User u) throws Exception {
+   public User register(User u) throws Exception {
        out.writeInt(Protocol.REGISTER);
        out.writeObject(u);
        out.flush();
@@ -99,6 +97,7 @@ public class ServiceProxy implements IService{ //representa a alguien que esta l
            throw new Exception("No remote user");
        }
 
+       return u;
    }
 
 
@@ -149,4 +148,5 @@ public class ServiceProxy implements IService{ //representa a alguien que esta l
          }
       );
    }
+
 }

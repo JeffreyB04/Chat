@@ -31,7 +31,7 @@ public class Server {
         /*IService service = new Service();
 
       boolean continuar = true;
-     ObjectInputStream in=null;
+       ObjectInputStream in=null;
        ObjectOutputStream out=null;
         Socket skt=null;
         while (continuar) {
@@ -72,7 +72,7 @@ public class Server {
                 switch (method) {
                     case Protocol.LOGIN:
                         try {
-                            User user = service.login((User) in.readObject()); //no se por que el login no lo esta agarrando desde el metodo de abajo
+                            User user = service.login((User) in.readObject()); //el login de abajo no se usa?
                             out.writeInt(Protocol.ERROR_NO_ERROR);
                             out.writeObject(user);
                             out.flush();
@@ -111,7 +111,7 @@ public class Server {
     }
 
     
-    private User login(ObjectInputStream in,ObjectOutputStream out,IService service) throws IOException, ClassNotFoundException, Exception{
+    public User login(ObjectInputStream in,ObjectOutputStream out,IService service) throws IOException, ClassNotFoundException, Exception{
         int method = in.readInt();
         if (method!=Protocol.LOGIN) throw new Exception("Should login first");
         User user=(User)in.readObject();                          

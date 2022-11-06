@@ -10,7 +10,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlID;
+import jakarta.xml.bind.annotation.XmlIDREF;
+
+@XmlAccessorType(XmlAccessType.FIELD)
 public class User implements Serializable{
+    //@XmlID
     String id;
     String clave;
     String nombre;
