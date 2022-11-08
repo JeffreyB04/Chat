@@ -16,7 +16,7 @@ import java.util.Collections;
 
 public class Server {
     ServerSocket srv;
-    List<Worker> workers; 
+    List<Worker> workers; //uno por cada usuario
     
     public Server() {
         try {

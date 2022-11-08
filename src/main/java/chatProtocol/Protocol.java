@@ -2,7 +2,7 @@ package chatProtocol;
 
 public class Protocol {
 
-    public static final String SERVER = "DESKTOP-3PSQNKC";  //nombre de la maquina
+    public static final String SERVER = "PC18LAB1005";  //nombre de la maquina
     public static final int PORT = 1234; //1234
 
     public static final int LOGIN=1;

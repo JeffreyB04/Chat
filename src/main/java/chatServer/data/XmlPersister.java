@@ -7,7 +7,8 @@ import jakarta.xml.bind.Unmarshaller;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-
+// lista de contactos de cada cliente
+// para cada contacto una lista de mensajes
 public class XmlPersister {
     private String path;
     private static XmlPersister theInstance;
