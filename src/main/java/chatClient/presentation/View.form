@@ -145,14 +145,6 @@
           </component>
         </children>
       </grid>
-      <component id="ecefb" class="javax.swing.JTable" binding="table1" default-binding="true">
-        <constraints>
-          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
-            <preferred-size width="150" height="50"/>
-          </grid>
-        </constraints>
-        <properties/>
-      </component>
       <component id="6392d" class="javax.swing.JTextField" binding="textField1" default-binding="true">
         <constraints>
           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
@@ -169,13 +161,15 @@
           <text value="Buscar"/>
         </properties>
       </component>
-      <component id="f395f" class="javax.swing.JTextField" binding="textField2" default-binding="true">
+      <component id="f395f" class="javax.swing.JTextField" binding="contactoFld">
         <constraints>
           <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
           </grid>
         </constraints>
-        <properties/>
+        <properties>
+          <text value=""/>
+        </properties>
       </component>
       <component id="16ce9" class="javax.swing.JButton" binding="contactoButton" default-binding="true">
         <constraints>
@@ -184,6 +178,14 @@
         <properties>
           <text value="Contacto"/>
         </properties>
+      </component>
+      <component id="ecefb" class="javax.swing.JTable" binding="contactos">
+        <constraints>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="50"/>
+          </grid>
+        </constraints>
+        <properties/>
       </component>
     </children>
   </grid>

@@ -24,6 +24,7 @@ public class Model extends java.util.Observable {
        users.add(new User("001","001","Juan"));
        users.add(new User("002","002","Maria"));
        users.add(new User("003","003","Pedro"));
+
     }
 
     public User getCurrentUser() {

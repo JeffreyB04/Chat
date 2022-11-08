@@ -24,10 +24,10 @@ public class View implements Observer {
     private JButton post;
     private JButton logout;
     private JButton register;
-    private JTable table1;
+    private JTable contactos;
     private JTextField textField1;
     private JButton buscarButton;
-    private JTextField textField2;
+    private JTextField contactoFld;
     private JButton contactoButton;
 
     Model model;
@@ -72,6 +72,8 @@ public class View implements Observer {
         post.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                int row = contactos.getSelectedRow();
+
                 String text = mensaje.getText();
                 controller.post(text);
             }
@@ -86,7 +88,7 @@ public class View implements Observer {
                     try {
                         controller.register(new User(id.getText(), new String(clave.getPassword()), nombre.getText()));
                     }catch (Exception ex){
-                        JOptionPane.showMessageDialog(panel, ex.getMessage(),"ERROR", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(panel, ex.getMessage(),"ERROR", JOptionPane.ERROR_MESSAGE); //salta acá
                     }
                 }
             }
@@ -111,6 +113,9 @@ public class View implements Observer {
     String receiverStyle = "background-color:white; margin-left:5px; margin-right:30px; margin-top:3px; padding:2px;";
 
     public void update(java.util.Observable updatedModel, Object properties) {
+        int[] cols = {TableModel.NOMBRE};
+        contactos.setModel(new TableModel(cols,model.getUsers()));
+        contactos.setRowHeight(30);
 
         int prop = (int) properties;
         if (model.getCurrentUser() == null) {
