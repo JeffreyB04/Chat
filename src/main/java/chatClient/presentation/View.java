@@ -24,6 +24,11 @@ public class View implements Observer {
     private JButton post;
     private JButton logout;
     private JButton register;
+    private JTable table1;
+    private JTextField textField1;
+    private JButton buscarButton;
+    private JTextField textField2;
+    private JButton contactoButton;
 
     Model model;
     Controller controller;

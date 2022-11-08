@@ -15,9 +15,15 @@ public class Model extends java.util.Observable {
     User currentUser;
     List<Message> messages;
 
+    List<User> users;
+
     public Model() {
        currentUser = null;
        messages= new ArrayList<>();
+       users =new ArrayList<>();
+       users.add(new User("001","001","Juan"));
+       users.add(new User("002","002","Maria"));
+       users.add(new User("003","003","Pedro"));
     }
 
     public User getCurrentUser() {
@@ -34,6 +40,14 @@ public class Model extends java.util.Observable {
 
     public void setMessages(List<Message> messages) {
         this.messages = messages;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 
     public void addObserver(java.util.Observer o) {
