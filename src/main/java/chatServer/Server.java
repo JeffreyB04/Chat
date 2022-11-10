@@ -121,7 +121,16 @@ public class Server {
         out.flush();
         return user;
     }
-    
+//    public User register(ObjectInputStream in,ObjectOutputStream out,IService service) throws IOException, ClassNotFoundException, Exception{
+//        int method = in.readInt();
+//        if (method!=Protocol.REGISTER) throw new Exception("Should login first");
+//        User user=(User)in.readObject();
+//        user=service.login(user);
+//        out.writeInt(Protocol.ERROR_REGISTER);
+//        out.writeObject(user);
+//        out.flush();
+//        return user;
+//    }
     public void deliver(Message message){
         for(Worker wk:workers){
             wk.deliver(message);
