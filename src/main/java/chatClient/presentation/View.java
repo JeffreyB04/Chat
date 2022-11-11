@@ -113,10 +113,11 @@ public class View implements Observer {
                 }
             }
         });
-        contactoButton.addMouseListener(new MouseAdapter() {
+
+        contactoButton.addActionListener(new ActionListener() {
             @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
+            public void actionPerformed(ActionEvent e) {
+                //controller.addContact();
             }
         });
     }

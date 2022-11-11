@@ -67,4 +67,9 @@ public class Controller {
         model.getUsers().set(row,model.selected);
     }
 
+    public void addContact(User contact){
+
+    }
+
+
 }
