@@ -93,7 +93,7 @@ public class View implements Observer {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int row = contactos.getSelectedRow();
-                contactos.getClientProperty("index");
+                //contactos.getClientProperty("index");
                 String text = mensaje.getText();
                 controller.post(text,row);
             }

@@ -132,11 +132,13 @@ public class Server {
         out.flush();
         return user;
     }
-    public void deliver(Message message){
+    public void deliver(Message message, User receiver){
+
 
         for(Worker wk:workers){
-
-            wk.deliver(message);
+            if(wk.user.equals(receiver)) {
+                wk.deliver(message);
+            }
         }        
     } 
     

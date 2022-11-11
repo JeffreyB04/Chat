@@ -28,7 +28,10 @@ public class Controller {
         model.commit(Model.USER);
     }
 
-    public void post(String text, int row){
+    public void post(String text,int row){
+        String id = model.getUsers().get(row).getId();
+        User u=null;
+
         Message message = new Message();
         message.setMessage(text);
         message.setSender(model.getCurrentUser());
