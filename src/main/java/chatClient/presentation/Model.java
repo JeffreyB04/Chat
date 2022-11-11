@@ -17,6 +17,8 @@ public class Model extends java.util.Observable {
 
     List<User> users;
 
+    User selected;
+
     public Model() {
        currentUser = null;
        messages= new ArrayList<>();
@@ -49,6 +51,14 @@ public class Model extends java.util.Observable {
 
     public void setUsers(List<User> users) {
         this.users = users;
+    }
+
+    public User getSelected() {
+        return selected;
+    }
+
+    public void setSelected(User selected) {
+        this.selected = selected;
     }
 
     public void addObserver(java.util.Observer o) {

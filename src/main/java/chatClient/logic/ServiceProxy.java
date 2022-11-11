@@ -11,6 +11,9 @@ import javax.swing.SwingUtilities;
 import chatProtocol.IService;
 import chatProtocol.Message;
 
+
+// para contacto se manda la peticion, no hace read y no espera respuesta
+
 public class ServiceProxy implements IService{ //representa a alguien que esta lejano
     private static IService theInstance;
     public static IService instance(){

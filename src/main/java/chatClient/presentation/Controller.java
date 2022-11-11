@@ -4,6 +4,7 @@ import chatClient.logic.ServiceProxy;
 import chatProtocol.Message;
 import chatProtocol.User;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Controller {
@@ -27,10 +28,11 @@ public class Controller {
         model.commit(Model.USER);
     }
 
-    public void post(String text){
+    public void post(String text, int row){
         Message message = new Message();
         message.setMessage(text);
         message.setSender(model.getCurrentUser());
+        message.setReceiver(model.getSelected());
         ServiceProxy.instance().post(message);
         model.commit(Model.CHAT);
     }
@@ -55,5 +57,11 @@ public class Controller {
     public void deliver(Message message){
         model.messages.add(message);
         model.commit(Model.CHAT);       
-    }    
+    }
+
+    public void obtieneSelected(int row) throws IOException {
+        model.selected = model.getUsers().get(row);
+        model.getUsers().set(row,model.selected);
+    }
+
 }

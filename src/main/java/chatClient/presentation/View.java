@@ -1,6 +1,7 @@
 package chatClient.presentation;
 
 import chatClient.Application;
+import chatClient.logic.ServiceProxy;
 import chatProtocol.Message;
 import chatProtocol.User;
 
@@ -9,6 +10,9 @@ import javax.swing.text.DefaultCaret;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.util.Observer;
 
 public class View implements Observer {
@@ -57,6 +61,22 @@ public class View implements Observer {
                 }
             }
         });
+
+        contactos.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+                if (e.getClickCount() == 1){
+                    int row = contactos.getSelectedRow();
+                    try {
+                        controller.obtieneSelected(row);
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+
+            }
+        });
         logout.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -73,9 +93,9 @@ public class View implements Observer {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int row = contactos.getSelectedRow();
-
+                contactos.getClientProperty("index");
                 String text = mensaje.getText();
-                controller.post(text);
+                controller.post(text,row);
             }
         });
         register.addActionListener(new ActionListener() {
@@ -91,6 +111,12 @@ public class View implements Observer {
                         JOptionPane.showMessageDialog(panel, ex.getMessage(),"ERROR", JOptionPane.ERROR_MESSAGE); //salta acá
                     }
                 }
+            }
+        });
+        contactoButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
             }
         });
     }

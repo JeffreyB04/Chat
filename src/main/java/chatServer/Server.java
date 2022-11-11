@@ -133,7 +133,9 @@ public class Server {
         return user;
     }
     public void deliver(Message message){
+
         for(Worker wk:workers){
+
             wk.deliver(message);
         }        
     } 
