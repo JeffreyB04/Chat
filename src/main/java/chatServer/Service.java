@@ -35,9 +35,8 @@ public class Service implements IService {
     }
 
     @Override
-    public User register(User u) throws Exception {
+    public void register(User u) throws Exception {
         usuarioDao.create(u);
-        return u;
     }
 
     public User login(User p) throws Exception {

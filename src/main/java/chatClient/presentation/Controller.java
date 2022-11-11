@@ -36,9 +36,8 @@ public class Controller {
     }
 
     public void register(User u) throws Exception {
-
-        User registered = ServiceProxy.instance().register(u); //solo los que esten ahi, no se por que no lo lee
-        model.setCurrentUser(registered);
+        ServiceProxy.instance().register(u);
+        model.setCurrentUser(u);
         model.commit(Model.USER);
     }
 
