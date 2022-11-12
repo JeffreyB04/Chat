@@ -2,8 +2,8 @@ package chatProtocol;
 
 public class Protocol {
 
-    public static final String SERVER = "PC010LAB1005";  //nombre de la maquina
-
+    public static final String SERVER = "PC010LAB1005";
+    //nombre de la maquina DESKTOP-3PSQNKC
     //maquina Bryan "DESKTOP-40SBQ7S"
     public static final int PORT = 1234; //1234
 
@@ -11,6 +11,7 @@ public class Protocol {
     public static final int LOGOUT=2;    
     public static final int POST=3;
     public static final int REGISTER=4;
+    public static final int CONTACT=5;
 
     public static final int DELIVER=10;
     
@@ -19,4 +20,6 @@ public class Protocol {
     public static final int ERROR_LOGOUT=2;    
     public static final int ERROR_POST=3;
     public static final int ERROR_REGISTER=4;
+    public static final int ERROR_CONTACT=5;
+    public static final int CONTACT_RESPONSE=5;//va 5?
 }
