@@ -68,7 +68,13 @@ public class Worker {  //empieza cuando se logea
                         //service.post(message); // if wants to save messages, ex. recivier no logged on
                         System.out.println(user.getNombre()+": "+message.getMessage());
                     } catch (ClassNotFoundException ex) {}
-                    break;                     
+                    break;
+                    case Protocol.CONTACT:
+                        try {
+                            //srv.remove(user);
+                            //service.logout(user); //nothing to do
+                        } catch (Exception ex) {}
+                        break;
                 }
                 out.flush();
             } catch (IOException  ex) {

@@ -135,7 +135,14 @@ public class ServiceProxy implements IService{ //representa a alguien que esta l
                         deliver(message);
                     } catch (ClassNotFoundException ex) {}
                     break;
+                    case Protocol.CONTACT_RESPONSE:
+                       // try {
+                            //InvokeLater
+
+                        //} catch (ClassNotFoundException ex) {}
+                        break;
                 }
+
                 out.flush();
             } catch (IOException  ex) {
                 continuar = false;
