@@ -56,6 +56,10 @@ public class Service implements IService {
         //nothing to do
     }
 
+    public void checkContact(User u) {
+
+    }
+
     // @Override
     // public void register(Message m) {
     // }

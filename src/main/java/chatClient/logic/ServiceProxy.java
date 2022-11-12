@@ -99,6 +99,10 @@ public class ServiceProxy implements IService{ //representa a alguien que esta l
        disconnect();
    }
 
+   public void checkContact(User u){
+
+   }
+
 
 
     // LISTENING FUNCTIONS

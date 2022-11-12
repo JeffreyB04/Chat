@@ -68,6 +68,7 @@ public class Controller {
     }
 
     public void addContact(User contact){
+        localService.checkContact(contact);
 
     }
 
