@@ -18,8 +18,9 @@ public class XmlPersister {
             theInstance =  new XmlPersister("Usuarios.xml");
         }
         return theInstance;
-    }
 
+    }
+    //load.nombre... en constructor
     public XmlPersister(String p){
         path = p;
     }
@@ -31,6 +32,8 @@ public class XmlPersister {
         Data result = (Data) unmarshaller.unmarshal(is);
         is.close();
         return result;
+
+
     }
 
     public void store(Data d) throws Exception{

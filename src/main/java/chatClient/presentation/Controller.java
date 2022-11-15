@@ -3,9 +3,11 @@ package chatClient.presentation;
 import chatClient.logic.ServiceProxy;
 import chatProtocol.Message;
 import chatProtocol.User;
+import chatServer.Service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Controller {
     View view;
@@ -71,6 +73,10 @@ public class Controller {
         localService.checkContact(contact);
 
     }
-
+    public void buscar(String filtro) throws Exception {
+        List<User> rows = Service.instance().UserSearch(filtro);
+        model.setUsers(rows);
+        model.commit(Model.USER);
+    }
 
 }

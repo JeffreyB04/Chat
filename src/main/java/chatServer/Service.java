@@ -7,6 +7,8 @@ import chatServer.data.Data;
 import chatServer.data.UsuarioDao;
 import chatServer.data.XmlPersister;
 
+import java.util.List;
+
 public class Service implements IService {
 
     private Data data;
@@ -45,13 +47,6 @@ public class Service implements IService {
         return p;
     }
 
-    //for(User u:data.getUsers()) if(p.equals(u)) return u;
-    //throw new Exception("User does not exist");
-    //usuarioDao.create(p);
-    //return p;
-    //p.setNombre(p.getId()); return p;
-
-
     public void logout(User p) throws Exception {
         //nothing to do
     }
@@ -60,9 +55,9 @@ public class Service implements IService {
 
     }
 
-    // @Override
-    // public void register(Message m) {
-    // }
+    public List<User> UserSearch(String filtro) throws Exception {
+        return  usuarioDao.findById(filtro);
+    }
 
     public void store() {
         try {

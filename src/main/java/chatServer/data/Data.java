@@ -29,3 +29,7 @@ public class Data {
         this.users = users;
     }
 }
+
+//cargar lista de contactos y luego mandarla al model
+//en el check hay que agregar al data
+//los usuarios tienen localmente los contactos, no en servidor

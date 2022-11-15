@@ -1,7 +1,6 @@
 package chatClient.presentation;
 
 import chatClient.Application;
-import chatClient.logic.ServiceProxy;
 import chatProtocol.Message;
 import chatProtocol.User;
 
@@ -29,13 +28,15 @@ public class View implements Observer {
     private JButton logout;
     private JButton register;
     private JTable contactos;
-    private JTextField textField1;
+    private JTextField contactFld;
     private JButton buscarButton;
     private JTextField contactoFld;
     private JButton contactoButton;
 
     Model model;
     Controller controller;
+
+    //a la hora de buscar se busca localmente en el data
 
     public View() {
         loginPanel.setVisible(true);
@@ -113,11 +114,21 @@ public class View implements Observer {
                 }
             }
         });
-
         contactoButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //controller.addContact();
+                controller.addContact(model.getCurrentUser());
+            }
+        });
+
+        buscarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    controller.buscar(contactFld.getText());
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
     }

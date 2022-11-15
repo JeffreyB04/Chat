@@ -3,6 +3,9 @@ package chatProtocol;
 import java.io.Serializable;
 
 public class Message implements Serializable{
+
+    //tabla de mensajes guarda id de quien lo envia, de quien lo recibe y el mensaje como tal (foreing keys)
+    //si el usuario no está logeado, tiene que recibir los mensajes de la tabla cuando entre
     User sender;
     String message;
 

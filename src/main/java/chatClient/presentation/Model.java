@@ -22,11 +22,11 @@ public class Model extends java.util.Observable {
     public Model() {
        currentUser = null;
        messages= new ArrayList<>();
-       users =new ArrayList<>();
-       users.add(new User("001","001","Juan"));
-       users.add(new User("002","002","Maria"));
-       users.add(new User("003","003","Pedro"));
-
+       //users =new ArrayList<>();
+       this.setUsers(users =new ArrayList<>()); //lee desde la base, pero no funciona porque tiene que leer desde XML
+       //users.add(new User("001","001","Juan"));
+       //users.add(new User("002","002","Maria"));
+       //users.add(new User("003","003","Pedro"));
     }
 
     public User getCurrentUser() {
