@@ -138,12 +138,10 @@ public class ServiceProxy implements IService{ //representa a alguien que esta l
                     case Protocol.CONTACT_RESPONSE:
                         try {
                         SwingUtilities.invokeLater(new Runnable(){
-                                                       public void run(){
-                                                           controller.addContact(u);
-                                                       }
-                                                   }
-                        );
-
+                            public void run(){
+                                controller.addContact(u);
+                            }
+                        });
                         } catch (ClassNotFoundException ex) {}
                         break;
                 }

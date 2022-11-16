@@ -1,5 +1,6 @@
 package chatServer;
 
+import chatProtocol.Protocol;
 import chatProtocol.User;
 import chatProtocol.IService;
 import chatProtocol.Message;
@@ -53,6 +54,13 @@ public class Service implements IService {
 
     public void checkContact(User u) throws Exception {
         usuarioDao.findById(u.getId());
+//      User aux=usuarioDao.read(u.getId());
+//        if(aux.getId().equals(u.getId())){
+//            return aux;
+//        }else {
+//            int error = Protocol.ERROR_CONTACT;
+//            return null;
+//        }
     }
 
     public List<User> UserSearch(String filtro) throws Exception {

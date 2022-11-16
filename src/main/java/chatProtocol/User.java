@@ -22,21 +22,21 @@ public class User implements Serializable{
     String clave;
     String nombre;
 
-    int estado;
+    //int estado;
 
 
 
     //contact status va relacionado a worker, agregar atributo que verifica status
 
-    public User(String id, String clave, String nombre, int estado) {
+    public User(String id, String clave, String nombre/*, int estado*/) {
         this.id = id;
         this.clave = clave;
         this.nombre = nombre;
-        this.estado = estado;
+        //this.estado = estado;
     }
 
     public User() {
-        this("","","",0);
+        this("","",""/*,0*/);
     }
 
     public String getId() {
@@ -63,13 +63,13 @@ public class User implements Serializable{
         this.nombre = nombre;
     }
 
-    public int getEstado() {
-        return estado;
-    }
+//    public int getEstado() {
+//        return estado;
+//    }
 
-    public void setEstado(int estado) {
-        this.estado = estado;
-    }
+//    public void setEstado(int estado) {
+//        this.estado = estado;
+//    }
 
     @Override
     public int hashCode() {

@@ -133,8 +133,6 @@ public class Server {
         return user;
     }
     public void deliver(Message message, User receiver){
-
-
         for(Worker wk:workers){
             if(wk.user.equals(receiver)) {
                 wk.deliver(message);

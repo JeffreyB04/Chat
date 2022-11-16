@@ -71,7 +71,6 @@ public class Controller {
 
     public void addContact(User contact){
         localService.checkContact(contact);
-
     }
     public void buscar(String filtro) throws Exception {
         List<User> rows = Service.instance().UserSearch(filtro);
