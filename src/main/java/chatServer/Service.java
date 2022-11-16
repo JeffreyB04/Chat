@@ -51,8 +51,8 @@ public class Service implements IService {
         //nothing to do
     }
 
-    public void checkContact(User u) {
-
+    public void checkContact(User u) throws Exception {
+        usuarioDao.findById(u.getId());
     }
 
     public List<User> UserSearch(String filtro) throws Exception {

@@ -13,12 +13,22 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Data {
     private List<User> users;
+    private Data data;
 
     public Data() {
+
+        //no se si era asi lo del load en constructor
+        data = new Data();
+        try {
+            data = XmlPersister.instance().load();
+        } catch (Exception e) {
+            data = new Data();
+        }
+
         users = new ArrayList<>();
-        users.add(new User("001","001","Juan"));
-        users.add(new User("002","002","Maria"));
-        users.add(new User("003","003","Pedro"));
+        //users.add(new User("001","001","Juan"));
+        //users.add(new User("002","002","Maria"));
+        //users.add(new User("003","003","Pedro"));
     }
 
     public List<User> getUsers() {

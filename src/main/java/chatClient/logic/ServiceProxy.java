@@ -11,7 +11,6 @@ import javax.swing.SwingUtilities;
 import chatProtocol.IService;
 import chatProtocol.Message;
 
-
 // para contacto se manda la peticion, no hace read y no espera respuesta
 
 public class ServiceProxy implements IService{ //representa a alguien que esta lejano
@@ -99,8 +98,9 @@ public class ServiceProxy implements IService{ //representa a alguien que esta l
        disconnect();
    }
 
-   public void checkContact(User u){
-
+   public void checkContact(User u) throws Exception {
+  // public void checkContact(String id) throws Exception {
+        controller.buscar(u.getId());
    }
 
 
@@ -136,10 +136,15 @@ public class ServiceProxy implements IService{ //representa a alguien que esta l
                     } catch (ClassNotFoundException ex) {}
                     break;
                     case Protocol.CONTACT_RESPONSE:
-                       // try {
-                            //InvokeLater
+                        try {
+                        SwingUtilities.invokeLater(new Runnable(){
+                                                       public void run(){
+                                                           controller.addContact(u);
+                                                       }
+                                                   }
+                        );
 
-                        //} catch (ClassNotFoundException ex) {}
+                        } catch (ClassNotFoundException ex) {}
                         break;
                 }
 
