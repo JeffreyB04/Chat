@@ -52,15 +52,15 @@ public class Service implements IService {
         //nothing to do
     }
 
-    public void checkContact(User u) throws Exception {
-        usuarioDao.findById(u.getId());
-//      User aux=usuarioDao.read(u.getId());
-//        if(aux.getId().equals(u.getId())){
-//            return aux;
-//        }else {
-//            int error = Protocol.ERROR_CONTACT;
-//            return null;
-//        }
+    public User checkContact(User u) throws Exception {
+        //usuarioDao.findById(u.getId());
+      User aux=usuarioDao.read(u.getId());
+        if(aux.getId().equals(u.getId())){
+            return aux;
+        }else {
+            int error = Protocol.ERROR_CONTACT;
+            return null;
+        }
     }
 
     public List<User> UserSearch(String filtro) throws Exception {

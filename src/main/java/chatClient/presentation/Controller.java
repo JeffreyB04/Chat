@@ -68,9 +68,15 @@ public class Controller {
         model.selected = model.getUsers().get(row);
         model.getUsers().set(row,model.selected);
     }
-
+    public void checkContact(User u)throws Exception{
+        ServiceProxy.instance().checkContact(u);
+}
     public void addContact(User contact) throws Exception {
-        localService.checkContact(contact);
+        model.getAllContacts().add(contact);
+        List<User> userList=model.getAllContacts();
+        model.setAllContacts(userList);
+        model.commit((model.USER));
+       // localService.checkContact(contact);
     }
     public void buscar(String filtro) throws Exception {
         List<User> rows = Service.instance().UserSearch(filtro);

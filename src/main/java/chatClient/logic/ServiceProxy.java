@@ -98,9 +98,16 @@ public class ServiceProxy implements IService{ //representa a alguien que esta l
        disconnect();
    }
 
-   public void checkContact(User u) throws Exception {
+   public User checkContact(User u) throws Exception {
   // public void checkContact(String id) throws Exception {
-        controller.buscar(u.getId());
+        try{
+            out.writeInt(Protocol.CONTACT);
+            out.writeObject(u);
+            out.flush();
+        }catch(IOException ex) {
+            throw new Exception("Error");
+        }
+        return null;
    }
 
 
@@ -135,17 +142,27 @@ public class ServiceProxy implements IService{ //representa a alguien que esta l
                         deliver(message);
                     } catch (ClassNotFoundException ex) {}
                     break;
-                    case Protocol.CONTACT_RESPONSE:
-                      /*  try {
-                        SwingUtilities.invokeLater(new Runnable(){
-                            public void run(){
-                                controller.addContact(u);
+                    case Protocol.CONTACT:
+                        try {
+                            int serverAnswer = in.readInt();
+                            if (serverAnswer == Protocol.ERROR_NO_ERROR) {
+                                SwingUtilities.invokeLater(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        try {
+                                            controller.addContact((User) in.readObject());
+                                        } catch (Exception e) {
+                                            throw new RuntimeException(e);
+                                        }
+                                    }
+                                });
+                            } else if (serverAnswer == Protocol.ERROR_CONTACT) {
                             }
-                        });
-                        } catch (ClassNotFoundException ex) {}
-                        break; */
+                        }   catch (IOException e){
+                                throw new RuntimeException();
+                        }
+                        break;
                 }
-
                 out.flush();
             } catch (IOException  ex) {
                 continuar = false;

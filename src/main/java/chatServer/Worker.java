@@ -71,6 +71,18 @@ public class Worker {  //empieza cuando se logea
                     break;
                     case Protocol.CONTACT:
                         try {
+                            User user =(User) in.readObject();
+                            User value = service.checkContact(user);
+                            out.writeInt(Protocol.CONTACT_RESPONSE);
+                            if(value!=null){
+                                out.writeInt(Protocol.ERROR_NO_ERROR);
+                                out.writeObject(value);
+                                out.flush();
+                            }else{
+                                out.writeInt(Protocol.ERROR_CONTACT);
+                                out.flush();
+                            }
+                            user.setId(user.getId());
                             //srv.remove(user);
                             //service.logout(user); //nothing to do
                         } catch (Exception ex) {}
