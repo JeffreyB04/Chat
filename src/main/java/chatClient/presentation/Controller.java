@@ -69,7 +69,7 @@ public class Controller {
         model.getUsers().set(row,model.selected);
     }
 
-    public void addContact(User contact){
+    public void addContact(User contact) throws Exception {
         localService.checkContact(contact);
     }
     public void buscar(String filtro) throws Exception {

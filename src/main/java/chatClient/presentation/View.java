@@ -117,7 +117,11 @@ public class View implements Observer {
         contactoButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                controller.addContact(model.getCurrentUser());
+                try {
+                    controller.addContact(model.getCurrentUser());
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
 

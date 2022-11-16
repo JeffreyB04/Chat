@@ -18,12 +18,12 @@ public class Data {
     public Data() {
 
         //no se si era asi lo del load en constructor
-        data = new Data();
+       /* data = new Data();
         try {
             data = XmlPersister.instance().load();
         } catch (Exception e) {
             data = new Data();
-        }
+        }*/
 
         users = new ArrayList<>();
         //users.add(new User("001","001","Juan"));
