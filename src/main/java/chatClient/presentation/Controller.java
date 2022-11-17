@@ -35,7 +35,7 @@ public class Controller {
         Message message = new Message();
         message.setMessage(text);
         message.setSender(model.getCurrentUser());
-        /*Modificado*/message.setReceiver(model.getSelected());
+        message.setReceiver(model.getSelected());
         ServiceProxy.instance().post(message);
         model.commit(Model.CHAT);
     }
@@ -53,6 +53,7 @@ public class Controller {
         model.commit(Model.USER+Model.CHAT);
     }
     public void register(User u)throws Exception{
+        u.setEstado("ONLINE");
         ServiceProxy.instance().register(u);
         model.setCurrentUser(u);
         model.commit(Model.USER);
