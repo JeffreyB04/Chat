@@ -13,7 +13,7 @@ public class MensajeDao {
         db = Database.instance();
     }
 
-    public void create(Message m) throws Exception {
+    public void create(Message m) throws Exception {  //crea cuando no esta logeado
         String sql = "insert into " +
                 "Message " +
                 "(sender, message, receiver) " +
@@ -23,5 +23,17 @@ public class MensajeDao {
         stm.setString(2, m.getMessage());
         stm.setString(3, m.getReceiver().getId());
         db.executeUpdate(stm);
+    }
+
+    public void delete(Message m) throws Exception { //borra cuando lo manda
+        String sql = "delete " +
+                "from Message " +
+                "where id=?";
+        PreparedStatement stm = db.prepareStatement(sql);
+        stm.setString(1, m.getMessage());
+        int count = db.executeUpdate(stm);
+        if (count == 0) {
+            throw new Exception("Message NO EXISTE");
+        }
     }
 }
