@@ -11,16 +11,17 @@ import java.io.IOException;
 
 public class Application {
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         try {
             UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");}
         catch (Exception ex) {};
 
         window = new JFrame();
+
         Model model= new Model();
         View view = new View();
         Controller controller =new Controller(view, model);
-        window.setSize(800,500);
+        window.setSize(800,485);
         window.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         window.setTitle("CHAT");
         try {
@@ -28,7 +29,6 @@ public class Application {
         } catch (Exception e) {}
         window.setContentPane(view.getPanel());
         window.setVisible(true);
-        Service.instance().store(); // no estoy seguro de eso
     }
 
     public static JFrame window;

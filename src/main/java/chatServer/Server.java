@@ -1,23 +1,24 @@
 
 package chatServer;
 
+import chatProtocol.IService;
+import chatProtocol.Message;
 import chatProtocol.Protocol;
+import chatProtocol.User;
+
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.List;
-import chatProtocol.IService;
-import chatProtocol.Message;
-import chatProtocol.User;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.Collections;
+import java.util.List;
 
 public class Server {
     ServerSocket srv;
     List<Worker> workers; //uno por cada usuario
-    
+
     public Server() {
         try {
             srv = new ServerSocket(Protocol.PORT);
@@ -26,10 +27,9 @@ public class Server {
         } catch (IOException ex) {
         }
     }
-    
+
     public void run(){
         /*IService service = new Service();
-
       boolean continuar = true;
        ObjectInputStream in=null;
        ObjectOutputStream out=null;
@@ -73,13 +73,17 @@ public class Server {
                     case Protocol.LOGIN:
                         try {
                             User user = service.login((User) in.readObject()); //el login de abajo no se usa?
+                            user.setEstado("ONLINE");
                             out.writeInt(Protocol.ERROR_NO_ERROR);
                             out.writeObject(user);
                             out.flush();
                             Worker worker = new Worker(this, in, out, user, service);
                             workers.add(worker);
                             worker.start();
-                        } catch (Exception ex) {
+
+                            updateEstado(user.getId(), user.getEstado());
+
+                } catch (Exception ex) {
                             out.writeInt(Protocol.ERROR_LOGIN);
                             out.flush();
                             skt.close();
@@ -110,39 +114,38 @@ public class Server {
         }
     }
 
-    
-    public User login(ObjectInputStream in,ObjectOutputStream out,IService service) throws IOException, ClassNotFoundException, Exception{
-        int method = in.readInt();
-        if (method!=Protocol.LOGIN) throw new Exception("Should login first");
-        User user=(User)in.readObject();                          
-        user=service.login(user);
-        out.writeInt(Protocol.ERROR_NO_ERROR);
-        out.writeObject(user);
-        out.flush();
-        return user;
-    }
 
-    private User register(ObjectInputStream in,ObjectOutputStream out,IService service) throws IOException, ClassNotFoundException, Exception{
-        int method = in.readInt();
-        if (method!=Protocol.REGISTER) throw new Exception("Should register first");
-        User user=(User)in.readObject();
-        service.register(user);
-        out.writeInt(Protocol.ERROR_NO_ERROR);
-        out.writeObject(user);
-        out.flush();
-        return user;
-    }
-    public void deliver(Message message, User receiver){
+    public void deliver(Message message){
         for(Worker wk:workers){
-            if(wk.user.equals(receiver)) {
+            //wk.deliver(message);
+            if(message.getReceiver().equals(wk.user)){
                 wk.deliver(message);
             }
-        }        
-    } 
-    
+            if(message.getSender().equals(wk.user)){
+                wk.deliver(message);
+            }
+        }
+    }
+
     public void remove(User u){
         for(Worker wk:workers) if(wk.user.equals(u)){workers.remove(wk);break;}
         System.out.println("Quedan: " + workers.size());
     }
-    
+
+    public void updateEstado(String id, String estado){
+        for (Worker wk: workers){
+            if(!wk.user.getId().equals(id)) {
+                wk.updateEstado(id, estado);
+            }
+        }
+    }
+    public String checkStatus(User u){
+        for (Worker wk: workers){
+            if(wk.user.equals(u)){
+                return "ONLINE";
+            }
+        }
+        return "OFFLINE";
+    }
+
 }

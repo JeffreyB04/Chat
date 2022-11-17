@@ -8,6 +8,11 @@ create table User(
     estado INT,
     PRIMARY KEY (id)
 );
+
+insert into User values('01','01','01', '-');
+insert into User values('02','02','02', '-');
+insert into User values('03','03','03', '-');
+
 create table Message(
     sender varchar(45) not null,
     message varchar(45) not null,

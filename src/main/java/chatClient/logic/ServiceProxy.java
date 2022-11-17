@@ -13,21 +13,19 @@ import chatProtocol.Message;
 
 // para contacto se manda la peticion, no hace read y no espera respuesta
 
-public class ServiceProxy implements IService{ //representa a alguien que esta lejano
+public class ServiceProxy implements IService{
     private static IService theInstance;
     public static IService instance(){
-        if (theInstance==null){ 
+        if (theInstance==null){
             theInstance=new ServiceProxy();
         }
         return theInstance;
     }
-
     ObjectInputStream in;
     ObjectOutputStream out;
     Controller controller;
 
-    public ServiceProxy() {           
-    }
+    public ServiceProxy() {}
 
     public void setController(Controller controller) {
         this.controller = controller;
@@ -38,14 +36,14 @@ public class ServiceProxy implements IService{ //representa a alguien que esta l
         skt = new Socket(Protocol.SERVER,Protocol.PORT);
         out = new ObjectOutputStream(skt.getOutputStream() );
         out.flush();
-        in = new ObjectInputStream(skt.getInputStream());    
+        in = new ObjectInputStream(skt.getInputStream());
     }
 
     private void disconnect() throws Exception{
         skt.shutdownOutput();
         skt.close();
     }
-    
+
     public User login(User u) throws Exception{
         connect();
         try {
@@ -61,12 +59,11 @@ public class ServiceProxy implements IService{ //representa a alguien que esta l
             else {
                 disconnect();
                 throw new Exception("No remote user");
-            }            
+            }
         } catch (IOException | ClassNotFoundException ex) {
             return null;
         }
     }
-    
     public void logout(User u) throws Exception{
         out.writeInt(Protocol.LOGOUT);
         out.writeObject(u);
@@ -74,47 +71,50 @@ public class ServiceProxy implements IService{ //representa a alguien que esta l
         this.stop();
         this.disconnect();
     }
-    
     public void post(Message message){
         try {
             out.writeInt(Protocol.POST);
             out.writeObject(message);
             out.flush();
         } catch (IOException ex) {
-            
-        }   
+
+        }
     }
-
-   public void register(User u) throws Exception {
-       int serverAnswer;
-       connect();
-       out.writeInt(Protocol.REGISTER);
-       out.writeObject(u);
-       out.flush();
-       serverAnswer=in.readInt();
-       if (serverAnswer==Protocol.ERROR_REGISTER){
-           throw new Exception("Error al registrar");
-       }
-       disconnect();
-   }
-
-   public User checkContact(User u) throws Exception {
-  // public void checkContact(String id) throws Exception {
-        try{
+    public void register(User u) throws Exception {
+        connect();
+        int response;
+        try {
+            out.writeInt(Protocol.REGISTER);
+            out.writeObject(u);
+            out.flush();
+            disconnect();
+            response = in.readInt();
+            if (response==Protocol.ERROR_NO_ERROR){
+                throw new Exception("Registration Error!");
+            }
+        } catch (IOException ex) {}
+    }
+    public User checkContact(User u) throws Exception {
+        try {
             out.writeInt(Protocol.CONTACT);
             out.writeObject(u);
             out.flush();
-        }catch(IOException ex) {
+        } catch (IOException ex) {
             throw new Exception("Error");
         }
         return null;
-   }
+    }
 
-
-
-    // LISTENING FUNCTIONS
-   boolean continuar = true;    
-   public void start(){
+    private void updateEstado( final String id, final String estado){
+        SwingUtilities.invokeLater(new Runnable(){
+            @Override
+            public void run() {
+                controller.updateEstado(id, estado);
+            }
+        });
+    }
+    boolean continuar = true;
+    public void start(){
         System.out.println("Client worker atendiendo peticiones...");
         Thread t = new Thread(new Runnable(){
             public void run(){
@@ -127,8 +127,7 @@ public class ServiceProxy implements IService{ //representa a alguien que esta l
     public void stop(){
         continuar=false;
     }
-    
-   public void listen(){
+    public void listen(){
         int method;
         while (continuar) {
             try {
@@ -136,12 +135,12 @@ public class ServiceProxy implements IService{ //representa a alguien que esta l
                 System.out.println("DELIVERY");
                 System.out.println("Operacion: "+method);
                 switch(method){
-                case Protocol.DELIVER:
-                    try {
-                        Message message=(Message)in.readObject();
-                        deliver(message);
-                    } catch (ClassNotFoundException ex) {}
-                    break;
+                    case Protocol.DELIVER:
+                        try {
+                            Message message=(Message)in.readObject();
+                            deliver(message);
+                        } catch (ClassNotFoundException ex) {}
+                        break;
                     case Protocol.CONTACT:
                         try {
                             int serverAnswer = in.readInt();
@@ -156,27 +155,32 @@ public class ServiceProxy implements IService{ //representa a alguien que esta l
                                         }
                                     }
                                 });
-                            } else if (serverAnswer == Protocol.ERROR_CONTACT) {
-                            }
-                        }   catch (IOException e){
-                                throw new RuntimeException();
+                            } else if (serverAnswer == Protocol.ERROR_CONTACT) {}
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
                         }
+                        break;
+                    case Protocol.USER_ESTADO:
+                        try {
+                            String id = (String)in.readObject();
+                            String estado = (String)in.readObject();
+                            updateEstado(id, estado);
+
+                        } catch (Exception ex){}
                         break;
                 }
                 out.flush();
             } catch (IOException  ex) {
                 continuar = false;
-            }                        
+            }
         }
     }
-    
-   private void deliver( final Message message ){
-      SwingUtilities.invokeLater(new Runnable(){
-            public void run(){
-               controller.deliver(message);
-            }
-         }
-      );
-   }
-
+    private void deliver( final Message message ){
+        SwingUtilities.invokeLater(new Runnable(){
+                                       public void run(){
+                                           controller.deliver(message);
+                                       }
+                                   }
+        );
+    }
 }

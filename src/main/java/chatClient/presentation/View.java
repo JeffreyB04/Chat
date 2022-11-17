@@ -49,7 +49,7 @@ public class View implements Observer {
         login.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                User u = new User(id.getText(), new String(clave.getPassword()), "");
+                User u = new User(id.getText(), new String(clave.getPassword()), ""/*,"ONLINE"*/);
                 id.setBackground(Color.white);
                 clave.setBackground(Color.white);
                 try {
@@ -66,16 +66,10 @@ public class View implements Observer {
         contactos.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-
-                if (e.getClickCount() == 1){
+                if (e.getClickCount() >= 1){
                     int row = contactos.getSelectedRow();
-                    try {
-                        controller.obtieneSelected(row);
-                    } catch (IOException ex) {
-                        throw new RuntimeException(ex);
-                    }
+                    model.setSelected(model.getContactsList().get(row));
                 }
-
             }
         });
         logout.addActionListener(new ActionListener() {
@@ -93,23 +87,27 @@ public class View implements Observer {
         post.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int row = contactos.getSelectedRow();
-                //contactos.getClientProperty("index");
                 String text = mensaje.getText();
-                controller.post(text,row);
+                try {
+                    controller.post(text);
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+                mensaje.setText("");
             }
         });
         register.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JTextField nombre = new JTextField("");
-                Object[] fields = {"Nombre:", nombre};
-                int option = JOptionPane.showConfirmDialog(panel,fields,id.getText(), JOptionPane.OK_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE);
-                if(option == JOptionPane.OK_OPTION){
-                    try {
-                        controller.register(new User(id.getText(), new String(clave.getPassword()), nombre.getText()));
-                    }catch (Exception ex){
-                        JOptionPane.showMessageDialog(panel, ex.getMessage(),"ERROR", JOptionPane.ERROR_MESSAGE); //salta acá
+                JTextField nombre=new JTextField("");
+                Object[] fields={"Nombre: ", nombre};
+                int option=JOptionPane.showConfirmDialog(panel, fields, id.getText(), JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+                if(option==JOptionPane.OK_OPTION){
+                    try{
+                        controller.register(new User(id.getText(), new String(clave.getPassword()), nombre.getText()/*,"ONLINE"*/));
+                    }
+                    catch (Exception ex){
+                        JOptionPane.showMessageDialog(panel, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 }
             }
@@ -117,10 +115,13 @@ public class View implements Observer {
         contactoButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                contactoFld.setBackground(Color.white);
                 try {
-                    controller.addContact(model.getCurrentUser());
+                    User u = new User(contactoFld.getText(), " "," ");
+                    controller.checkContact(u);
+                    contactoFld.setText("");
                 } catch (Exception ex) {
-                    throw new RuntimeException(ex);
+                    JOptionPane.showMessageDialog(panel, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -129,7 +130,12 @@ public class View implements Observer {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    controller.buscar(contactFld.getText());
+                    if(contactFld.getText().isEmpty()){
+                        controller.updateContacts();
+                    }
+                    else {
+                        controller.searchContacts(contactFld.getText());
+                    }
                 } catch (Exception ex) {
                     throw new RuntimeException(ex);
                 }
@@ -155,9 +161,6 @@ public class View implements Observer {
     String receiverStyle = "background-color:white; margin-left:5px; margin-right:30px; margin-top:3px; padding:2px;";
 
     public void update(java.util.Observable updatedModel, Object properties) {
-        int[] cols = {TableModel.NOMBRE};
-        contactos.setModel(new TableModel(cols,model.getUsers()));
-        contactos.setRowHeight(30);
 
         int prop = (int) properties;
         if (model.getCurrentUser() == null) {
@@ -169,6 +172,8 @@ public class View implements Observer {
             Application.window.setTitle(model.getCurrentUser().getNombre().toUpperCase());
             loginPanel.setVisible(false);
             bodyPanel.setVisible(true);
+            contactos.setVisible(true);
+
             Application.window.getRootPane().setDefaultButton(post);
             if ((prop & Model.CHAT) == Model.CHAT) {
                 this.messages.setText("");
@@ -176,15 +181,19 @@ public class View implements Observer {
                 for (Message m : model.getMessages()) {
                     if (m.getSender().equals(model.getCurrentUser())) {
                         text += ("Me:" + m.getMessage() + "\n");
-                    } else {
+                    }
+                    else {
                         text += (m.getSender().getNombre() + ": " + m.getMessage() + "\n");
-                     }
+                    }
                 }
                 this.messages.setText(text);
             }
             //this.mensaje.setText("");
         }
+        int[] cols = {TableModel.ESTADO, TableModel.NOMBRE};
+        contactos.setModel(new TableModel(cols, model.getContactsList()));
+        contactos.setRowHeight(30);
+
         panel.validate();
     }
-
 }

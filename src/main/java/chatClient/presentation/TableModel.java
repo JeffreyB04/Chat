@@ -9,24 +9,23 @@ public class TableModel extends AbstractTableModel implements javax.swing.table.
     List<User> rows;
     int[] cols;
 
-    public TableModel(int[] cols, List<User> rows) {
+    public TableModel(int[] cols, List<User> rows){
         initColNames();
-        this.cols = cols;
-        this.rows = rows;
+        this.cols=cols;
+        this.rows=rows;
     }
 
     public int getColumnCount() {
         return cols.length;
     }
 
-    public String getColumnName(int col) {
+    public String getColumnName(int col){
         return colNames[cols[col]];
     }
 
-    public Class<?> getColumnClass(int col) {
-        switch (cols[col]) {
-            default:
-                return super.getColumnClass(col);
+    public Class<?> getColumnClass(int col){
+        switch (cols[col]){
+            default: return super.getColumnClass(col);
         }
     }
 
@@ -35,21 +34,20 @@ public class TableModel extends AbstractTableModel implements javax.swing.table.
     }
 
     public Object getValueAt(int row, int col) {
-        User usuario = rows.get(row);
-        switch (cols[col]) {
-            case NOMBRE:
-                return usuario.getNombre();
-
-            default:
-                return "";
+        User user = rows.get(row);
+        switch (cols[col]){
+            case ESTADO: return user.getEstado();
+            case NOMBRE: return user.getNombre();
+            default: return "";
         }
     }
 
-    public static final int NOMBRE = 0;
+    public static final int ESTADO =0;
+    public static final int NOMBRE=1;
 
-    String[] colNames = new String[1];
-
-    private void initColNames() {
-        colNames[NOMBRE] = "Nombre";
+    String[] colNames = new String[2];
+    private void initColNames(){
+        colNames[ESTADO]= "Estado";
+        colNames[NOMBRE]= "Nombre";
     }
 }

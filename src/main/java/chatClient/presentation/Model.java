@@ -7,37 +7,43 @@ package chatClient.presentation;
 
 import chatProtocol.Message;
 import chatProtocol.User;
+import chatServer.data.Data;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Model extends java.util.Observable {
     User currentUser;
+    User selected;
+    Data data;
+    List<User> wanted;
+    List<User> allContacts;
     List<Message> messages;
 
-    List<User> users;
-    List<User> allContacts;
-
-    User selected;
-
+    List<User> contactsList;
 
     public Model() {
-       currentUser = null;
-       messages= new ArrayList<>();
-        allContacts= new ArrayList<>();
-       //users =new ArrayList<>();
-       this.setUsers(users =new ArrayList<>()); //lee desde la base, pero no funciona porque tiene que leer desde XML
-       //users.add(new User("001","001","Juan"));
-       //users.add(new User("002","002","Maria"));
-       //users.add(new User("003","003","Pedro"));
+        currentUser = null;
+        messages= new ArrayList<>();
+        contactsList= new ArrayList<>();
     }
-
     public User getCurrentUser() {
         return currentUser;
     }
-
     public void setCurrentUser(User currentUser) {
         this.currentUser = currentUser;
+    }
+    public User getSelected() {
+        return selected;
+    }
+
+    public void setSelected(User selected) {
+        this.selected = selected;
+    }
+    public List<User> getContactsList() {return contactsList;}
+
+    public void setContactsList(List<User> contactsList) {
+        this.contactsList = contactsList;
     }
 
     public List<Message> getMessages() {
@@ -48,40 +54,16 @@ public class Model extends java.util.Observable {
         this.messages = messages;
     }
 
-    public List<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<User> users) {
-        this.users = users;
-    }
-
-    public User getSelected() {
-        return selected;
-    }
-
-    public void setSelected(User selected) {
-        this.selected = selected;
-    }
-
-    public List<User> getAllContacts() {
-        return allContacts;
-    }
-
-    public void setAllContacts(List<User> allContacts) {
-        this.allContacts = allContacts;
-    }
-
     public void addObserver(java.util.Observer o) {
         super.addObserver(o);
         this.commit(Model.USER+Model.CHAT);
     }
-    
+
     public void commit(int properties){
         this.setChanged();
-        this.notifyObservers(properties);        
-    } 
-    
+        this.notifyObservers(properties);
+    }
+
     public static int USER=1;
     public static int CHAT=2;
 }

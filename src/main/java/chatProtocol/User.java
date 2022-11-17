@@ -10,34 +10,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import jakarta.xml.bind.annotation.XmlAccessType;
-import jakarta.xml.bind.annotation.XmlAccessorType;
-import jakarta.xml.bind.annotation.XmlID;
-import jakarta.xml.bind.annotation.XmlIDREF;
-
-@XmlAccessorType(XmlAccessType.FIELD)
 public class User implements Serializable{
-    //@XmlID
     String id;
     String clave;
     String nombre;
 
-    //int estado;
+    String estado;
 
-
-
-    //contact status va relacionado a worker, agregar atributo que verifica status
-
-    public User(String id, String clave, String nombre/*, int estado*/) {
+    public User(String id, String clave, String nombre/*,String estado*/) {
         this.id = id;
         this.clave = clave;
         this.nombre = nombre;
-        //this.estado = estado;
+        this.estado= "-";
     }
-
-    public User() {
-        this("","",""/*,0*/);
-    }
+    public User() {}
 
     public String getId() {
         return id;
@@ -63,13 +49,9 @@ public class User implements Serializable{
         this.nombre = nombre;
     }
 
-//    public int getEstado() {
-//        return estado;
-//    }
+    public String getEstado() {return estado;}
 
-//    public void setEstado(int estado) {
-//        this.estado = estado;
-//    }
+    public void setEstado(String estado) {this.estado = estado;}
 
     @Override
     public int hashCode() {

@@ -1,5 +1,6 @@
 package chatClient.presentation;
 
+import chatClient.logic.ServiceData;
 import chatClient.logic.ServiceProxy;
 import chatProtocol.Message;
 import chatProtocol.User;
@@ -12,11 +13,8 @@ import java.util.List;
 public class Controller {
     View view;
     Model model;
-    
     ServiceProxy localService;
-    
-    public Controller(View view, Model model) throws Exception {
-        model.setUsers(Service.instance().UserSearch(""));
+    public Controller(View view, Model model) {
         this.view = view;
         this.model = model;
         localService = (ServiceProxy)ServiceProxy.instance();
@@ -24,31 +22,23 @@ public class Controller {
         view.setController(this);
         view.setModel(model);
     }
-
     public void login(User u) throws Exception{
-        User logged=ServiceProxy.instance().login(u); //solo los que esten ahi
+        User logged=ServiceProxy.instance().login(u);
+
+        ServiceData.instance().load(logged.getId());
+        model.setContactsList(ServiceData.instance().contacts());
+
         model.setCurrentUser(logged);
         model.commit(Model.USER);
     }
-
-    public void post(String text,int row){
-        String id = model.getUsers().get(row).getId();
-        User u=null;
-
+    public void post(String text){
         Message message = new Message();
         message.setMessage(text);
         message.setSender(model.getCurrentUser());
-        message.setReceiver(model.getSelected());
+        /*Modificado*/message.setReceiver(model.getSelected());
         ServiceProxy.instance().post(message);
         model.commit(Model.CHAT);
     }
-
-    public void register(User u) throws Exception {
-        ServiceProxy.instance().register(u);
-        model.setCurrentUser(u);
-        model.commit(Model.USER);
-    }
-
     public void logout(){
         try {
             ServiceProxy.instance().logout(model.getCurrentUser());
@@ -56,33 +46,46 @@ public class Controller {
             model.commit(Model.CHAT);
         } catch (Exception ex) {
         }
+
+        ServiceData.instance().store(model.getCurrentUser().getId());
+
         model.setCurrentUser(null);
         model.commit(Model.USER+Model.CHAT);
     }
-        
+    public void register(User u)throws Exception{
+        ServiceProxy.instance().register(u);
+        model.setCurrentUser(u);
+        model.commit(Model.USER);
+    }
     public void deliver(Message message){
         model.messages.add(message);
-        model.commit(Model.CHAT);       
+        model.commit(Model.CHAT);
     }
 
-    public void obtieneSelected(int row) throws IOException {
-        model.selected = model.getUsers().get(row);
-        model.getUsers().set(row,model.selected);
+    public void searchContacts(String filtro) throws Exception {
+        model.setContactsList(ServiceData.instance().searchByName(filtro));
+        model.commit(Model.USER);
+    }
+    public void updateContacts() throws Exception {
+        model.setContactsList(ServiceData.instance().contacts());
+        ServiceData.instance().store(model.getCurrentUser().getId());
+        model.commit(Model.USER);
     }
     public void checkContact(User u)throws Exception{
         ServiceProxy.instance().checkContact(u);
-}
-    public void addContact(User contact) throws Exception {
-        model.getAllContacts().add(contact);
-        List<User> userList=model.getAllContacts();
-        model.setAllContacts(userList);
-        model.commit((model.USER));
-       // localService.checkContact(contact);
     }
-    public void buscar(String filtro) throws Exception {
-        List<User> rows = Service.instance().UserSearch(filtro);
-        model.setUsers(rows);
+    public void addContact(User u)throws Exception{
+        ServiceData.instance().addContact(u);
+        ServiceData.instance().store(model.getCurrentUser().getId());
+        model.setContactsList(ServiceData.instance().contacts());
+
         model.commit(Model.USER);
     }
 
+    public void updateEstado(String id, String estado){
+        ServiceData.instance().updateContact(id, estado);
+        model.setContactsList(ServiceData.instance().contacts());
+        model.commit(model.USER);
+        ServiceData.instance().store(model.getCurrentUser().getId());
+    }
 }

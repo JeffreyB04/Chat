@@ -17,12 +17,13 @@ public class UsuarioDao {
     public void create(User e) throws Exception {
         String sql = "insert into " +
                 "User " +
-                "(id, clave, nombre) " +
-                "values(?,?,?)";
+                "(id, clave, nombre, estado) " +
+                "values(?,?,?)";                    //ellas tiene 3 ?, pero son 4 parametros
         PreparedStatement stm = db.prepareStatement(sql);
         stm.setString(1, e.getId());
         stm.setString(2, e.getClave());
         stm.setString(3, e.getNombre());
+        stm.setString(4, e.getEstado());
         db.executeUpdate(stm);
     }
 
@@ -89,6 +90,7 @@ public class UsuarioDao {
         e.setId(rs.getString(alias + ".id"));
         e.setClave(rs.getString(alias + ".clave"));
         e.setNombre(rs.getString(alias + ".nombre"));
+        e.setEstado(rs.getString(alias + ".estado"));
         return e;
     }
 
