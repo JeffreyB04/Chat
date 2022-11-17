@@ -15,7 +15,8 @@ public class Controller {
     
     ServiceProxy localService;
     
-    public Controller(View view, Model model) {
+    public Controller(View view, Model model) throws Exception {
+        model.setUsers(Service.instance().UserSearch(""));
         this.view = view;
         this.model = model;
         localService = (ServiceProxy)ServiceProxy.instance();

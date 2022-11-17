@@ -16,12 +16,15 @@ public class Model extends java.util.Observable {
     List<Message> messages;
 
     List<User> users;
+    List<User> allContacts;
 
     User selected;
+
 
     public Model() {
        currentUser = null;
        messages= new ArrayList<>();
+        allContacts= new ArrayList<>();
        //users =new ArrayList<>();
        this.setUsers(users =new ArrayList<>()); //lee desde la base, pero no funciona porque tiene que leer desde XML
        //users.add(new User("001","001","Juan"));
@@ -59,6 +62,14 @@ public class Model extends java.util.Observable {
 
     public void setSelected(User selected) {
         this.selected = selected;
+    }
+
+    public List<User> getAllContacts() {
+        return allContacts;
+    }
+
+    public void setAllContacts(List<User> allContacts) {
+        this.allContacts = allContacts;
     }
 
     public void addObserver(java.util.Observer o) {
