@@ -10,8 +10,8 @@ create table User(
 );
 create table Message(
     sender varchar(45) not null,
-    receiver varchar(45) not null,
     message varchar(45) not null,
+    receiver varchar(45) not null,
     PRIMARY KEY (message)
 );
 ALTER TABLE Message ADD FOREIGN KEY (sender) REFERENCES User(id);

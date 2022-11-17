@@ -6,6 +6,7 @@ import chatProtocol.IService;
 import chatProtocol.Message;
 import chatServer.data.Data;
 import chatServer.data.UsuarioDao;
+import chatServer.data.MensajeDao;
 import chatServer.data.XmlPersister;
 
 import java.util.List;
@@ -14,6 +15,7 @@ public class Service implements IService {
 
     private Data data;
     private UsuarioDao usuarioDao;
+    private MensajeDao mensajeDao;
 
     private static Service theInstance;
     public static Service instance(){
@@ -26,6 +28,7 @@ public class Service implements IService {
     public Service() {
         data = new Data();
         usuarioDao = new UsuarioDao();
+        //mensajeDao = new MensajeDao();
         try {
             data = XmlPersister.instance().load();
         } catch (Exception e) {
@@ -35,6 +38,8 @@ public class Service implements IService {
 
     public void post(Message m) {
         // if wants to save messages, ex. recivier no logged on
+        //mensajeDao.create(m);
+
     }
 
     @Override

@@ -1,11 +1,16 @@
 package chatProtocol;
 
-import java.io.Serializable;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlID;
 
+import java.io.Serializable;
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Message implements Serializable{
 
     //tabla de mensajes guarda id de quien lo envia, de quien lo recibe y el mensaje como tal (foreing keys)
     //si el usuario no está logeado, tiene que recibir los mensajes de la tabla cuando entre
+    @XmlID
     User sender;
     String message;
 

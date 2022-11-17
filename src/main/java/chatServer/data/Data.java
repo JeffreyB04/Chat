@@ -1,5 +1,6 @@
 package chatServer.data;
 
+import chatProtocol.Message;
 import chatProtocol.User;
 
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 public class Data {
     private List<User> users;
     private Data data;
+    private List<Message> messages;
 
     public Data() {
 
@@ -24,6 +26,7 @@ public class Data {
         } catch (Exception e) {
             data = new Data();
         }*/
+        messages = new ArrayList<>();
 
         users = new ArrayList<>();
         //users.add(new User("001","001","Juan"));
@@ -37,6 +40,14 @@ public class Data {
 
     public void setUsers(List<User> users) {
         this.users = users;
+    }
+
+    public List<Message> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(List<Message> messages) {
+        this.messages = messages;
     }
 }
 
