@@ -1,9 +1,0 @@
-CREATE DATABASE mydb;
-use mydb;
-
-create table User(
-    id varchar(45) not null,
-    clave  varchar(45) not null,
-    nombre  varchar(45) not null,
-    PRIMARY KEY (id)
-);

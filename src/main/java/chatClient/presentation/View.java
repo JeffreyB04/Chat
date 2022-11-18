@@ -67,7 +67,7 @@ public class View implements Observer {
         contactos.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (e.getClickCount() == 1){
+           /*     if (e.getClickCount() == 1){
                     int row = contactos.getSelectedRow();
                     try {
                         controller.obtieneSelected(row);
@@ -79,7 +79,7 @@ public class View implements Observer {
             }
         });
 
-                 /*
+            */
                 if (e.getClickCount() >= 1){
                 contactoFld.setText(controller.getContact(contactos.getSelectedRow()).getId());
                 contactoFld.setVisible(true);
@@ -88,7 +88,7 @@ public class View implements Observer {
             }
         });
 
-                  */
+
         logout.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -114,6 +114,8 @@ public class View implements Observer {
             }
         });
         //--------------------------------------------
+                     */
+
                 if (id.getText() != ""){
                     String text = mensaje.getText();
                     mensaje.setText("");
@@ -123,13 +125,15 @@ public class View implements Observer {
                 }
             }
         });
-             */
+/*
                 int row = contactos.getSelectedRow();
                 //contactos.getClientProperty("index");
                 String text = mensaje.getText();
                 controller.post(text,id.getText());
             }
         });
+
+ */
         register.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -227,7 +231,7 @@ public class View implements Observer {
             contactos.setVisible(true);
 
             Application.window.getRootPane().setDefaultButton(post);
-            /*if ((prop & Model.CHAT) == Model.CHAT) {
+            if ((prop & Model.CHAT) == Model.CHAT) {
                 this.messages.setText("");
                 String html = "<div style="+backStyle+">";
                 for (Message m : ServiceData.instance().chatWith(model.getCurrentUser().getId())) {
@@ -243,8 +247,8 @@ public class View implements Observer {
             }
             //this.mensaje.setText("");
         }
+/*
 
-             */
             if ((prop & Model.CHAT) == Model.CHAT) {
                 this.messages.setText("");
                 String text = "";
@@ -259,7 +263,7 @@ public class View implements Observer {
                 this.messages.setText(text);
             }
             //this.mensaje.setText("");
-        }
+        } */
         int[] cols = {TableModel.ESTADO, TableModel.NOMBRE};
         contactos.setModel(new TableModel(cols, model.getContactsList()));
         contactos.setRowHeight(30);
