@@ -23,7 +23,7 @@ public class User implements Serializable{
         this.nombre = nombre;
         this.estado= false;
     }
-    public User() {}
+    public User() {this("", "", "");}
 
     public String getId() {
         return id;

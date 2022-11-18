@@ -7,7 +7,6 @@ package chatClient.presentation;
 
 import chatProtocol.Message;
 import chatProtocol.User;
-import chatServer.data.Data;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,11 +14,7 @@ import java.util.List;
 public class Model extends java.util.Observable {
     User currentUser;
     User selected;
-    //Data data;
-    List<User> wanted;
-    List<User> allContacts;
     List<Message> messages;
-
     String id;
     List<User> contactsList;
 
@@ -48,14 +43,6 @@ public class Model extends java.util.Observable {
         this.contactsList = contactsList;
     }
 
-    public List<Message> getMessages() {
-        return messages;
-    }
-
-    public void setMessages(List<Message> messages) {
-        this.messages = messages;
-    }
-
     public String getId() {
         return id;
     }
@@ -64,6 +51,22 @@ public class Model extends java.util.Observable {
         this.id = id;
     }
 
+    public List<Message> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(List<Message> messages) {
+        this.messages = messages;
+    }
+
+    public User getContact(String id){
+        for (User u : contactsList){
+            if (u.getId() == id){
+                return u;
+            }
+        }
+        return null;
+    }
     public void addObserver(java.util.Observer o) {
         super.addObserver(o);
         this.commit(Model.USER+Model.CHAT);

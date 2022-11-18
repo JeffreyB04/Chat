@@ -15,9 +15,9 @@ public class Data {
     public Data(){
         contacts = new ArrayList<>();
         messages = new ArrayList<>();
-        contacts.add(new User("01","01","Uno"));
-        contacts.add(new User("02","02","Dos"));
-        contacts.add(new User("03","03","Tres"));
+        contacts.add(new User("01","01","01"));
+        contacts.add(new User("02","02","01"));
+        contacts.add(new User("03","03","01"));
     }
 
     public ArrayList<User> getContacts() {

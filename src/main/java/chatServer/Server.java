@@ -16,6 +16,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class Server {
+    IService service;
     ServerSocket srv;
     List<Worker> workers; //uno por cada usuario
 
@@ -23,6 +24,7 @@ public class Server {
         try {
             srv = new ServerSocket(Protocol.PORT);
             workers =  Collections.synchronizedList(new ArrayList<Worker>());
+            service = new Service();
             System.out.println("Servidor iniciado...");
         } catch (IOException ex) {
         }
@@ -89,7 +91,7 @@ public class Server {
 
 
     public void deliver(Message message){
-        for(Worker wk:workers){
+        /*for(Worker wk:workers){
             //wk.deliver(message);
             if(message.getReceiver().equals(wk.user)){
                 wk.deliver(message);
@@ -97,6 +99,19 @@ public class Server {
             if(message.getSender().equals(wk.user)){
                 wk.deliver(message);
             }
+        }
+
+         */
+        int contador = 0;
+        for(Worker wk : workers) {
+            if (wk.user.equals(message.getReceiver())) {
+                wk.deliver(message);
+            } else {
+                contador++;
+            }
+        }
+        if (contador == workers.size()){
+            service.post(message);
         }
     }
 

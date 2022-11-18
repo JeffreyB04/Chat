@@ -1,6 +1,7 @@
 package chatClient.presentation;
 
 import chatClient.Application;
+import chatClient.logic.ServiceData;
 import chatProtocol.Message;
 import chatProtocol.User;
 
@@ -66,20 +67,28 @@ public class View implements Observer {
         contactos.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                /*if (e.getClickCount() >= 1){
+                if (e.getClickCount() == 1){
                     int row = contactos.getSelectedRow();
-                    model.setSelected(model.getContactsList().get(row));
+                    try {
+                        controller.obtieneSelected(row);
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
                 }
+
             }
         });
 
-                 */
-                super.mouseClicked(e);
+                 /*
+                if (e.getClickCount() >= 1){
                 contactoFld.setText(controller.getContact(contactos.getSelectedRow()).getId());
                 contactoFld.setVisible(true);
                 controller.changeContact(contactoFld.getText());
             }
+            }
         });
+
+                  */
         logout.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -95,13 +104,30 @@ public class View implements Observer {
         post.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String text = mensaje.getText();
+          /*     String text = mensaje.getText();
                 try {
-                    controller.post(text);
+                    controller.post(text, id.getText());
                 } catch (Exception ex) {
                     throw new RuntimeException(ex);
                 }
                 mensaje.setText("");
+            }
+        });
+        //--------------------------------------------
+                if (id.getText() != ""){
+                    String text = mensaje.getText();
+                    mensaje.setText("");
+                    controller.post(text, id.getText());
+                } else {
+                    JOptionPane.showMessageDialog(panel, "Select a contact","ERROR",JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+             */
+                int row = contactos.getSelectedRow();
+                //contactos.getClientProperty("index");
+                String text = mensaje.getText();
+                controller.post(text,id.getText());
             }
         });
         register.addActionListener(new ActionListener() {
@@ -174,6 +200,9 @@ public class View implements Observer {
     public void setController(Controller controller) {
         this.controller = controller;
     }
+    public void errorContact(String message){
+        JOptionPane.showMessageDialog(panel, message, "ERROR", JOptionPane.ERROR_MESSAGE);
+    }
 
     public JPanel getPanel() {
         return panel;
@@ -198,6 +227,24 @@ public class View implements Observer {
             contactos.setVisible(true);
 
             Application.window.getRootPane().setDefaultButton(post);
+            /*if ((prop & Model.CHAT) == Model.CHAT) {
+                this.messages.setText("");
+                String html = "<div style="+backStyle+">";
+                for (Message m : ServiceData.instance().chatWith(model.getCurrentUser().getId())) {
+                    if (m.getSender().equals(model.getCurrentUser()) && m.getReceiver().equals(model.getContact(model.id))) {
+                        html += ("<div style=" + senderStyle + ">" + "Me: " + m.getMessage() + "</div>");
+                    }
+                    if (m.getReceiver().equals(model.getCurrentUser()) && m.getSender().equals(model.getContact(model.id))) {
+                        html += ("<div style=" + receiverStyle + ">" + m.getSender().getId() + ": " + m.getMessage() + "</div>");
+                    }
+                }
+                html += "</div>";
+                this.messages.setText(html);
+            }
+            //this.mensaje.setText("");
+        }
+
+             */
             if ((prop & Model.CHAT) == Model.CHAT) {
                 this.messages.setText("");
                 String text = "";

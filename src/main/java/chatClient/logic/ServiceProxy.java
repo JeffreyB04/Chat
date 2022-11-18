@@ -149,6 +149,28 @@ public class ServiceProxy implements IService{
                             throw new RuntimeException(e);
                         }
                         break;
+                    case Protocol.CONTACT_RESPONSE:
+                        try {
+                            int error = in.readInt();
+                            if (error == Protocol.ERROR_NO_ERROR){
+                                User user= (User)in.readObject();
+                                addContact(user);
+                            } else if (error == Protocol.ERROR_CONTACT) {
+                                controller.errorContact("Username don't exist");
+                            } else if (error == Protocol.ERROR_CONTACT_EQUAL){
+                                controller.errorContact("The username pertain of you");
+                            }
+                        } catch (Exception ex){}
+                        break;
+                    case Protocol.UNREADMESSAGES_RESPONSE:
+                        try {
+                            int error = in.readInt();
+                            if (error == Protocol.ERROR_NO_ERROR){
+                                List<Message> messages = (List<Message>)in.readObject();
+                                addUnReadMessages(messages);
+                            }
+                        }catch (Exception ex){}
+                        break;
                     case Protocol.UPDATE_STATUS:
                         try {
                             String id = (String)in.readObject();
@@ -198,5 +220,17 @@ public class ServiceProxy implements IService{
         out.writeObject(id);
         out.flush();
         return null;
+    }
+    private void addContact(final User user){
+        SwingUtilities.invokeLater(new Runnable(){
+                                       public void run(){
+                                           try {
+                                               controller.addContact(user);
+                                           } catch (Exception e) {
+                                               throw new RuntimeException(e);
+                                           }
+                                       }
+                                   }
+        );
     }
 }

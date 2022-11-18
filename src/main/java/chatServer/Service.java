@@ -4,22 +4,23 @@ import chatProtocol.Protocol;
 import chatProtocol.User;
 import chatProtocol.IService;
 import chatProtocol.Message;
-import chatServer.data.Data;
 import chatServer.data.MensajeDao;
 import chatServer.data.UsuarioDao;
 
 import java.util.List;
 
 public class Service implements IService{
-    private Data data;
     private UsuarioDao usuarioDao;
     private MensajeDao mensajeDao;
     public Service() {
         //data =  new Data();
         usuarioDao=new UsuarioDao();
+        mensajeDao=new MensajeDao();
     }
     public void post(Message m){
-        // if wants to save messages, ex. recivier no logged on
+        try {
+            mensajeDao.insertMessage(m);
+        } catch (Exception ex){}
     }
     public User login(User p) throws Exception{
         User aux = usuarioDao.read(p.getId());
@@ -36,15 +37,7 @@ public class Service implements IService{
         //nothing to do
     }
     public void register(User u) throws Exception {
-       // User aux = usuarioDao.read(u.getId());
-        //if(aux.getId().equals(u.getId())){
-         //   int error = Protocol.ERROR_REGISTER;
-          //  throw new Exception(""+ error);
-        //}
-        //else {
-         //   u.setEstado(true);
             usuarioDao.create(u);
-        //}
     }
     public User checkContact(String id) throws Exception {
         return usuarioDao.getUser(id);
