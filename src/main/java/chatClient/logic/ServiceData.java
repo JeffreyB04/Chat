@@ -56,7 +56,7 @@ public class ServiceData {
                 .filter(u->u.getNombre().contains(filtro))
                 .collect(Collectors.toList());
     }
-    public List<User> contactWhit(String filter){
+    public List<User> contactWith(String filter){
         return data.getContacts().stream()
                 .filter(u->u.getId().contains(filter))
                 .collect(Collectors.toList());

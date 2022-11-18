@@ -4,10 +4,8 @@ import chatClient.logic.ServiceData;
 import chatClient.logic.ServiceProxy;
 import chatProtocol.Message;
 import chatProtocol.User;
-import chatServer.Service;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Controller {
@@ -78,7 +76,7 @@ public class Controller {
     }
 
     public void searchContacts(String filtro) throws Exception {
-        model.setContactsList(ServiceData.instance().contactWhit(filtro));
+        model.setContactsList(ServiceData.instance().contactWith(filtro));
         model.commit(Model.USER);
     }
     public void updateContacts() throws Exception {
