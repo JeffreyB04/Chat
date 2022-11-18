@@ -66,7 +66,6 @@ public class Server {
                     case Protocol.REGISTER:
                         try {
                             service.register((User) in.readObject());
-
                             out.writeInt(Protocol.ERROR_NO_ERROR);
                             out.flush();
                         } catch (Exception ex) {

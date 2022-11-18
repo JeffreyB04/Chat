@@ -36,15 +36,15 @@ public class Service implements IService{
         //nothing to do
     }
     public void register(User u) throws Exception {
-        User aux = usuarioDao.read(u.getId());
-        if(aux.getId().equals(u.getId())){
-            int error = Protocol.ERROR_REGISTER;
-            throw new Exception(""+ error);
-        }
-        else {
-            u.setEstado(true);
+       // User aux = usuarioDao.read(u.getId());
+        //if(aux.getId().equals(u.getId())){
+         //   int error = Protocol.ERROR_REGISTER;
+          //  throw new Exception(""+ error);
+        //}
+        //else {
+         //   u.setEstado(true);
             usuarioDao.create(u);
-        }
+        //}
     }
     public User checkContact(String id) throws Exception {
         return usuarioDao.getUser(id);

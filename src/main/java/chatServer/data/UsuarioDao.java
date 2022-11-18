@@ -17,7 +17,7 @@ public class UsuarioDao {
     public void create(User e) throws Exception {
         String sql = "insert into " +
                 "User " +
-                "(id, clave, nombre, estado) " +
+                "(id, clave, nombre) " +
                 "values(?,?,?)";                    //ellas tiene 3 ?, pero son 4 parametros
         PreparedStatement stm = db.prepareStatement(sql);
         stm.setString(1, e.getId());

@@ -82,18 +82,16 @@ public class ServiceProxy implements IService{
         }
     }
     public void register(User u) throws Exception {
+        int serverAnswer;
         connect();
-        int response;
-        try {
-            out.writeInt(Protocol.REGISTER);
-            out.writeObject(u);
-            out.flush();
-            disconnect();
-            response = in.readInt();
-            if (response==Protocol.ERROR_NO_ERROR){
-                throw new Exception("Registration Error!");
-            }
-        } catch (IOException ex) {}
+        out.writeInt(Protocol.REGISTER);
+        out.writeObject(u);
+        out.flush();
+        serverAnswer=in.readInt();
+        if (serverAnswer==Protocol.ERROR_REGISTER){
+            throw new Exception("Error al registrar");
+        }
+        disconnect();
     }
     public User checkContact(User u) throws Exception {
         try {
