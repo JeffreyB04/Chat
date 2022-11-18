@@ -66,10 +66,18 @@ public class View implements Observer {
         contactos.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (e.getClickCount() >= 1){
+                /*if (e.getClickCount() >= 1){
                     int row = contactos.getSelectedRow();
                     model.setSelected(model.getContactsList().get(row));
                 }
+            }
+        });
+
+                 */
+                super.mouseClicked(e);
+                contactoFld.setText(controller.getContact(contactos.getSelectedRow()).getId());
+                contactoFld.setVisible(true);
+                controller.changeContact(contactoFld.getText());
             }
         });
         logout.addActionListener(new ActionListener() {
@@ -115,7 +123,7 @@ public class View implements Observer {
         contactoButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JTextField usernameContact = new JTextField("");
+                /*JTextField usernameContact = new JTextField("");
                 Object[] fields = {
                         "Type your friend's username: ", usernameContact
                 };
@@ -126,6 +134,17 @@ public class View implements Observer {
                     } catch (Exception ex){
                         JOptionPane.showMessageDialog(panel, ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
                     }
+                }
+            }
+        });
+                 */
+                contactoFld.setBackground(Color.white);
+                try {
+                    User u = new User(contactoFld.getText(), " "," ");
+                    controller.checkContact(u.getId());
+                    contactoFld.setText("");
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(panel, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });

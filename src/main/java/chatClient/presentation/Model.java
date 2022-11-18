@@ -15,17 +15,19 @@ import java.util.List;
 public class Model extends java.util.Observable {
     User currentUser;
     User selected;
-    Data data;
+    //Data data;
     List<User> wanted;
     List<User> allContacts;
     List<Message> messages;
 
+    String id;
     List<User> contactsList;
 
     public Model() {
         currentUser = null;
         messages= new ArrayList<>();
         contactsList= new ArrayList<>();
+        id = "null";
     }
     public User getCurrentUser() {
         return currentUser;
@@ -52,6 +54,14 @@ public class Model extends java.util.Observable {
 
     public void setMessages(List<Message> messages) {
         this.messages = messages;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public void addObserver(java.util.Observer o) {

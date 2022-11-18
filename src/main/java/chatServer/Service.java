@@ -15,7 +15,7 @@ public class Service implements IService{
     private UsuarioDao usuarioDao;
     private MensajeDao mensajeDao;
     public Service() {
-        data =  new Data();
+        //data =  new Data();
         usuarioDao=new UsuarioDao();
     }
     public void post(Message m){

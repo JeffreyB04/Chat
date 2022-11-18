@@ -93,16 +93,6 @@ public class ServiceProxy implements IService{
         }
         disconnect();
     }
-    public User checkContact(User u) throws Exception {
-        try {
-            out.writeInt(Protocol.CONTACT);
-            out.writeObject(u);
-            out.flush();
-        } catch (IOException ex) {
-            throw new Exception("Error");
-        }
-        return null;
-    }
 
     private void updateEstado( final String id, final boolean estado){
         SwingUtilities.invokeLater(new Runnable(){
@@ -203,9 +193,9 @@ public class ServiceProxy implements IService{
         out.writeObject(receiver);
         out.flush();
     }
-    public User checkContact(String username) throws Exception{
+    public User checkContact(String id) throws Exception{
         out.writeInt(Protocol.CONTACT);
-        out.writeObject(username);
+        out.writeObject(id);
         out.flush();
         return null;
     }

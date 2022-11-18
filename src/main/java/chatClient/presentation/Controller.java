@@ -81,6 +81,10 @@ public class Controller {
 
         model.commit(Model.USER);
     }
+    public User getContact(int row) {
+        return model.contactsList.get(row);
+    }
+
 
     public void updateEstado(String id, boolean estado){
         ServiceData.instance().updateContact(id, estado);
@@ -94,5 +98,10 @@ public class Controller {
         }
         model.commit(model.CHAT);
     }
+    public void changeContact(String id) {
+        model.setId(id);
+        model.commit(model.CHAT);
+    }
+
 
 }
