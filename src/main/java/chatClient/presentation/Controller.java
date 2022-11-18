@@ -53,7 +53,6 @@ public class Controller {
         model.commit(Model.USER+Model.CHAT);
     }
     public void register(User u)throws Exception{
-        u.setEstado("ONLINE");
         ServiceProxy.instance().register(u);
         model.setCurrentUser(u);
         model.commit(Model.USER);
@@ -83,7 +82,7 @@ public class Controller {
         model.commit(Model.USER);
     }
 
-    public void updateEstado(String id, String estado){
+    public void updateEstado(String id, boolean estado){
         ServiceData.instance().updateContact(id, estado);
         model.setContactsList(ServiceData.instance().contacts());
         model.commit(model.USER);

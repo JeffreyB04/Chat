@@ -36,7 +36,7 @@ public class TableModel extends AbstractTableModel implements javax.swing.table.
     public Object getValueAt(int row, int col) {
         User user = rows.get(row);
         switch (cols[col]){
-            case ESTADO: return user.getEstado();
+            case ESTADO: return user.isEstado();
             case NOMBRE: return user.getNombre();
             default: return "";
         }

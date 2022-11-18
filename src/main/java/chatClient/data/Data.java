@@ -19,12 +19,6 @@ public class Data {
         contacts.add(new User("02","02","Dos"));
         contacts.add(new User("03","03","Tres"));
     }
-    /*public Data() {
-        contacts = new ArrayList<>();
-        contacts.add(new User("01","01","Uno"));
-        contacts.add(new User("02","02","Dos"));
-        contacts.add(new User("03","03","Tres"));
-    }*/
 
     public ArrayList<User> getContacts() {
         return contacts;

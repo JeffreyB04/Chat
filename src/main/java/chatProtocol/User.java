@@ -15,13 +15,13 @@ public class User implements Serializable{
     String clave;
     String nombre;
 
-    String estado;
+    boolean estado;
 
     public User(String id, String clave, String nombre/*,String estado*/) {
         this.id = id;
         this.clave = clave;
         this.nombre = nombre;
-        this.estado= "-";
+        this.estado= false;
     }
     public User() {}
 
@@ -49,9 +49,13 @@ public class User implements Serializable{
         this.nombre = nombre;
     }
 
-    public String getEstado() {return estado;}
+    public boolean isEstado() {
+        return estado;
+    }
 
-    public void setEstado(String estado) {this.estado = estado;}
+    public void setEstado(boolean estado) {
+        this.estado = estado;
+    }
 
     @Override
     public int hashCode() {

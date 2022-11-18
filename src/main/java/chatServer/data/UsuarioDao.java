@@ -23,7 +23,7 @@ public class UsuarioDao {
         stm.setString(1, e.getId());
         stm.setString(2, e.getClave());
         stm.setString(3, e.getNombre());
-        stm.setString(4, e.getEstado());
+        //stm.setString(4, e.getEstado());
         db.executeUpdate(stm);
     }
 
@@ -90,7 +90,7 @@ public class UsuarioDao {
         e.setId(rs.getString(alias + ".id"));
         e.setClave(rs.getString(alias + ".clave"));
         e.setNombre(rs.getString(alias + ".nombre"));
-        e.setEstado(rs.getString(alias + ".estado"));
+        //e.setEstado(rs.getString(alias + ".estado"));
         return e;
     }
 

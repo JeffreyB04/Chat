@@ -5,6 +5,5 @@ create table User(
     id varchar(45) not null,
     clave  varchar(45) not null,
     nombre  varchar(45) not null,
-    estado VARCHAR(45) NOT NULL,
     PRIMARY KEY (id)
 );

@@ -38,7 +38,7 @@ public class Service implements IService{
             throw new Exception(""+ error);
         }
         else {
-            u.setEstado("ONLINE");
+            u.setEstado(true);
             usuarioDao.create(u);
         }
     }

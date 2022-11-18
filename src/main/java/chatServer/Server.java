@@ -46,7 +46,7 @@ public class Server {
                     case Protocol.LOGIN:
                         try {
                             User user = service.login((User) in.readObject()); //el login de abajo no se usa?
-                            user.setEstado("ONLINE");
+                            user.setEstado(true);
                             out.writeInt(Protocol.ERROR_NO_ERROR);
                             out.writeObject(user);
                             out.flush();
@@ -54,7 +54,7 @@ public class Server {
                             workers.add(worker);
                             worker.start();
 
-                            updateEstado(user.getId(), user.getEstado());
+                            updateEstado(user.getId(), user.isEstado());
 
                 } catch (Exception ex) {
                             out.writeInt(Protocol.ERROR_LOGIN);
@@ -106,20 +106,20 @@ public class Server {
         System.out.println("Quedan: " + workers.size());
     }
 
-    public void updateEstado(String id, String estado){
+    public void updateEstado(String id, boolean estado){
         for (Worker wk: workers){
             if(!wk.user.getId().equals(id)) {
                 wk.updateEstado(id, estado);
             }
         }
     }
-    public String checkStatus(User u){
+    public boolean checkStatus(User u){
         for (Worker wk: workers){
             if(wk.user.equals(u)){
-                return "ONLINE";
+                return true;
             }
         }
-        return "OFFLINE";
+        return false;
     }
 
 }

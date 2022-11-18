@@ -63,7 +63,7 @@ public class ServiceData {
                 .collect(Collectors.toList());
     }
 
-    public void updateContact(String codigo, String estado){
+    public void updateContact(String codigo, boolean estado){
         for (User user: contacts()){
             if (user.getId().equals(codigo)){
                 user.setEstado(estado);

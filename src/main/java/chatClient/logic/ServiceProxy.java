@@ -105,7 +105,7 @@ public class ServiceProxy implements IService{
         return null;
     }
 
-    private void updateEstado( final String id, final String estado){
+    private void updateEstado( final String id, final boolean estado){
         SwingUtilities.invokeLater(new Runnable(){
             @Override
             public void run() {
@@ -163,7 +163,7 @@ public class ServiceProxy implements IService{
                     case Protocol.USER_ESTADO:
                         try {
                             String id = (String)in.readObject();
-                            String estado = (String)in.readObject();
+                            boolean estado = in.readBoolean();
                             updateEstado(id, estado);
 
                         } catch (Exception ex){}

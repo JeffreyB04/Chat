@@ -53,8 +53,8 @@ public class Worker {  //empieza cuando se logea
                     //case Protocol.LOGIN: done on accept
                     case Protocol.LOGOUT:
                         try {
-                            user.setEstado("OFFLINE");
-                            srv.updateEstado(user.getId(), user.getEstado());
+                            user.setEstado(false);
+                            srv.updateEstado(user.getId(), user.isEstado());
                             srv.remove(user);
                             stop();
                             //service.logout(user); //nothing to do
@@ -109,7 +109,7 @@ public class Worker {  //empieza cuando se logea
         }
     }
 
-    public void updateEstado(String id, String estado){
+    public void updateEstado(String id, boolean estado){
         try {
             out.writeInt(Protocol.USER_ESTADO);
             out.writeObject(id);
