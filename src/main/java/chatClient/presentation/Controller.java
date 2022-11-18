@@ -71,8 +71,8 @@ public class Controller {
         ServiceData.instance().store(model.getCurrentUser().getId());
         model.commit(Model.USER);
     }
-    public void checkContact(User u)throws Exception{
-        ServiceProxy.instance().checkContact(u);
+    public void checkContact(String id)throws Exception{
+        ServiceProxy.instance().checkContact(id);
     }
     public void addContact(User u)throws Exception{
         ServiceData.instance().addContact(u);
@@ -88,4 +88,11 @@ public class Controller {
         model.commit(model.USER);
         ServiceData.instance().store(model.getCurrentUser().getId());
     }
+    public void addUnReadMessages(List<Message> unReadMessages){
+        for(Message m: unReadMessages){
+            ServiceData.instance().addMessage(m);
+        }
+        model.commit(model.CHAT);
+    }
+
 }

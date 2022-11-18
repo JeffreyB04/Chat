@@ -93,7 +93,20 @@ public class UsuarioDao {
         //e.setEstado(rs.getString(alias + ".estado"));
         return e;
     }
-
+    public User getUser(String id) throws Exception {
+        String sql = "SELECT " +
+                "* " +
+                "from  User u " +
+                "where u.id=?";
+        PreparedStatement stm = db.prepareStatement(sql);
+        stm.setString(1, id);
+        ResultSet rs = db.executeQuery(stm);
+        if (rs.next()) {
+            return from(rs, "u");
+        } else {
+            throw new Exception("USUARIO NO EXISTE");
+        }
+    }
 
 
 }

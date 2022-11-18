@@ -115,13 +115,17 @@ public class View implements Observer {
         contactoButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                contactoFld.setBackground(Color.white);
-                try {
-                    User u = new User(contactoFld.getText(), " "," ");
-                    controller.checkContact(u);
-                    contactoFld.setText("");
-                } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(panel, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                JTextField usernameContact = new JTextField("");
+                Object[] fields = {
+                        "Type your friend's username: ", usernameContact
+                };
+                int option = JOptionPane.showConfirmDialog(panel, fields, "Add contact", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+                if(option == JOptionPane.OK_OPTION){
+                    try {
+                        controller.checkContact(usernameContact.getText());
+                    } catch (Exception ex){
+                        JOptionPane.showMessageDialog(panel, ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
             }
         });

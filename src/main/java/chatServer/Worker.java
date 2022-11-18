@@ -5,6 +5,8 @@ import chatProtocol.Protocol;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.List;
+
 import chatProtocol.IService;
 import chatProtocol.Message;
 
@@ -72,24 +74,47 @@ public class Worker {  //empieza cuando se logea
                         break;
                     case Protocol.CONTACT:
                         try {
-                            User user = (User) in.readObject();
-                            User value = service.checkContact(user);
-
-                            value.setEstado(srv.checkStatus(value));
-
-                            out.writeInt(Protocol.CONTACT_RESPONSE);
-                            if (value != null){
+                            User user = service.checkContact((String)in.readObject());
+                            user.setEstado(srv.checkStatus(user));
+                            if(!user.equals(this.user)){
+                                out.writeInt(Protocol.CONTACT_RESPONSE);
                                 out.writeInt(Protocol.ERROR_NO_ERROR);
-                                out.writeObject(value);
+                                out.writeObject(user);
                                 out.flush();
-                            }else{
-                                out.writeInt(Protocol.ERROR_CONTACT);
+                            } else {
+                                out.writeInt(Protocol.CONTACT_RESPONSE);
+                                out.writeInt(Protocol.ERROR_CONTACT_EQUAL);
                                 out.flush();
                             }
-                            user.setId(user.getId());
-                        } catch (ClassNotFoundException e) {} catch (Exception e){
-                            throw new RuntimeException();
+                        } catch (Exception ex){
+                            out.writeInt(Protocol.CONTACT_RESPONSE);
+                            out.writeInt(Protocol.ERROR_CONTACT);
+                            out.flush();
                         }
+                        break;
+                    case Protocol.UNREADMESSAGES:
+                        try {
+                            List<Message> messages = service.unReadMessages((String)in.readObject());
+                            if (!messages.isEmpty()) {
+                                out.writeInt(Protocol.UNREADMESSAGES_RESPONSE);
+                                out.writeInt(Protocol.ERROR_NO_ERROR);
+                                out.writeObject(messages);
+                                out.flush();
+                            } else {
+                                out.writeInt(Protocol.UNREADMESSAGES_RESPONSE);
+                                out.writeInt(Protocol.ERROR_UNREAD_MESSAGES);
+                                out.flush();
+                            }
+                        } catch (Exception ex){
+                            out.writeInt(Protocol.UNREADMESSAGES_RESPONSE);
+                            out.writeInt(Protocol.ERROR_UNREAD_MESSAGES);
+                            out.flush();
+                        }
+                        break;
+                    case Protocol.DELETEREADMESSAGES:
+                        try {
+                            service.deleteReadMessages((String)in.readObject());
+                        }catch (Exception ex){}
                         break;
                 }
                 out.flush();
@@ -111,7 +136,7 @@ public class Worker {  //empieza cuando se logea
 
     public void updateEstado(String id, boolean estado){
         try {
-            out.writeInt(Protocol.USER_ESTADO);
+            out.writeInt(Protocol.UPDATE_STATUS);
             out.writeObject(id);
             out.writeObject(estado);
             out.flush();

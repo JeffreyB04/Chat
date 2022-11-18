@@ -5,11 +5,15 @@ import chatProtocol.User;
 import chatProtocol.IService;
 import chatProtocol.Message;
 import chatServer.data.Data;
+import chatServer.data.MensajeDao;
 import chatServer.data.UsuarioDao;
+
+import java.util.List;
 
 public class Service implements IService{
     private Data data;
     private UsuarioDao usuarioDao;
+    private MensajeDao mensajeDao;
     public Service() {
         data =  new Data();
         usuarioDao=new UsuarioDao();
@@ -42,15 +46,15 @@ public class Service implements IService{
             usuarioDao.create(u);
         }
     }
-    public User checkContact(User u) throws Exception {
-        User aux=usuarioDao.read(u.getId());
-        if(aux.getId().equals(u.getId())){
-            return aux;
-        }
-        else {
-            int error = Protocol.ERROR_CONTACT;
-            return null;
-        }
+    public User checkContact(String id) throws Exception {
+        return usuarioDao.getUser(id);
     }
 
+    public List<Message> unReadMessages(String receiver) throws Exception{
+        return mensajeDao.unReadMessages(receiver);
+    }
+
+    public void deleteReadMessages(String receiver) throws Exception{
+        mensajeDao.deleteReadMessages(receiver);
+    }
 }

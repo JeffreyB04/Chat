@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.List;
 import javax.swing.SwingUtilities;
 import chatProtocol.IService;
 import chatProtocol.Message;
@@ -160,7 +161,7 @@ public class ServiceProxy implements IService{
                             throw new RuntimeException(e);
                         }
                         break;
-                    case Protocol.USER_ESTADO:
+                    case Protocol.UPDATE_STATUS:
                         try {
                             String id = (String)in.readObject();
                             boolean estado = in.readBoolean();
@@ -182,5 +183,32 @@ public class ServiceProxy implements IService{
                                        }
                                    }
         );
+    }
+    private void addUnReadMessages(final List<Message> messages){
+        SwingUtilities.invokeLater(new Runnable(){
+                                       public void run(){
+                                           controller.addUnReadMessages(messages);
+                                       }
+                                   }
+        );
+    }
+
+    public List<Message> unReadMessages(String receiver) throws Exception{
+        out.writeInt(Protocol.UNREADMESSAGES);
+        out.writeObject(receiver);
+        out.flush();
+        return null;
+    }
+
+    public void deleteReadMessages(String receiver) throws Exception{
+        out.writeInt(Protocol.DELETEREADMESSAGES);
+        out.writeObject(receiver);
+        out.flush();
+    }
+    public User checkContact(String username) throws Exception{
+        out.writeInt(Protocol.CONTACT);
+        out.writeObject(username);
+        out.flush();
+        return null;
     }
 }
