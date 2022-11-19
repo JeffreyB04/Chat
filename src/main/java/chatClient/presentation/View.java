@@ -33,6 +33,7 @@ public class View implements Observer {
     private JTextField contactoFld;
     private JButton contactoButton;
 
+    private JLabel contactUsername;
     Model model;
     Controller controller;
     public View() {
@@ -43,6 +44,8 @@ public class View implements Observer {
         DefaultCaret caret = (DefaultCaret) messages.getCaret();
         caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 
+        messages.setEditable(false);
+        messages.setContentType("text/html");
         login.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -63,11 +66,11 @@ public class View implements Observer {
         contactos.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                 super.mouseClicked(e);
+                super.mouseClicked(e);
                 //if (e.getClickCount() == 1) {
-                    contactoFld.setText(controller.getContact(contactos.getSelectedRow()).getId());
-                    contactoFld.setVisible(true);
-                    controller.changeContact(contactoFld.getText());
+                contactUsername.setText(controller.getContact(contactos.getSelectedRow()).getId());
+                contactUsername.setVisible(true);
+                controller.changeContact(contactUsername.getText());
                 //}
             }
         });
@@ -77,6 +80,9 @@ public class View implements Observer {
             @Override
             public void actionPerformed(ActionEvent e) {
                 controller.logout();
+                contactUsername.setText("null");
+                contactUsername.setVisible(false);
+                messages.setText(null);
             }
         });
         finish.addActionListener(new ActionListener() {
@@ -88,10 +94,10 @@ public class View implements Observer {
         post.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (id.getText() != ""){
+                if (contactUsername.getText() != ""){
                     String text = mensaje.getText();
                     mensaje.setText("");
-                        controller.post(text, id.getText());
+                    controller.post(text, contactUsername.getText());
                 } else {
                     JOptionPane.showMessageDialog(panel, "Select a contact","ERROR",JOptionPane.ERROR_MESSAGE);
                 }
@@ -200,3 +206,4 @@ public class View implements Observer {
         panel.validate();
     }
 }
+

@@ -71,7 +71,7 @@ public class Controller {
         model.commit(Model.CHAT);
     }
 
-    public void buscarContactos(String filtro) throws Exception {
+    public void buscarContactos(String filtro) {
         model.setContactsList(ServiceData.instance().contactWith(filtro));
         model.commit(Model.USER);
     }
