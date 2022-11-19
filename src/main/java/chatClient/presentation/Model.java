@@ -60,6 +60,7 @@ public class Model extends java.util.Observable {
     }
 
     public User getContact(String filtro){  //id al que lo manda
+        filtro = id;
         for (User u : contactsList){
             if (u.getId().equals(filtro)){
                 return u;

@@ -29,12 +29,19 @@ public class Controller {
         model.setCurrentUser(logged);
         model.commit(Model.USER);
     }
-    public void post(String text, String UId) {
+    public void changeContact(String id) {
+        model.setId(id);
+        model.commit(model.CHAT);
+    }
+    public void post(String text, String id) {
         Message message = new Message();
         message.setMessage(text);
         message.setSender(model.getCurrentUser());
-        User id = model.getContact(UId);
-        message.setReceiver(id);
+        //model.setId(id);
+        // model.id = String.valueOf(model.getContact(id));
+        id = model.getId();
+        message.setReceiver(model.getContact(id));
+
         ServiceProxy.instance().post(message);
         ServiceData.instance().addMessage(message);
         model.commit(Model.CHAT);
@@ -104,8 +111,5 @@ public class Controller {
     public void errorContact(String message){
         view.errorContact(message);
     }
-    public void changeContact(String id) {
-        model.setId(id);
-        model.commit(model.CHAT);
-    }
+
 }
