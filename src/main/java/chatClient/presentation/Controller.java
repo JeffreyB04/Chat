@@ -4,8 +4,6 @@ import chatClient.logic.ServiceData;
 import chatClient.logic.ServiceProxy;
 import chatProtocol.Message;
 import chatProtocol.User;
-
-import java.io.IOException;
 import java.util.List;
 
 public class Controller {
@@ -24,25 +22,19 @@ public class Controller {
         User logged=ServiceProxy.instance().login(u);
         ServiceData.instance().load(logged.getId());
 
-        ServiceProxy.instance().unReadMessages(logged.getId());
-        ServiceProxy.instance().deleteReadMessages(logged.getId());
+        ServiceProxy.instance().noLeido(logged.getId());
+        ServiceProxy.instance().borrarNoLeido(logged.getId());
 
         model.setContactsList(ServiceData.instance().contacts());
         model.setCurrentUser(logged);
         model.commit(Model.USER);
     }
-    public void post(String text, String id){
-        /*Message message = new Message();
-        message.setMessage(text);
-        message.setSender(model.getCurrentUser());
-        message.setReceiver(model.getSelected());
-        ServiceProxy.instance().post(message);
-        model.commit(Model.CHAT);
-         */
+    public void post(String text, String UId) {
         Message message = new Message();
         message.setMessage(text);
         message.setSender(model.getCurrentUser());
-        message.setReceiver(model.getContact(id));
+        User id = model.getContact(UId);
+        message.setReceiver(id);
         ServiceProxy.instance().post(message);
         ServiceData.instance().addMessage(message);
         model.commit(Model.CHAT);
@@ -51,7 +43,6 @@ public class Controller {
     public void logout(){
         try {
             ServiceProxy.instance().logout(model.getCurrentUser());
-            //model.setMessages(new ArrayList<>());
             model.commit(Model.CHAT);
         } catch (Exception ex) {
         }
@@ -67,19 +58,17 @@ public class Controller {
         model.commit(Model.USER);
     }
     public void deliver(Message message){
-        /*model.messages.add(message);
-        model.commit(Model.CHAT);
-         */
+        model.messages.add(message);
         ServiceData.instance().addMessage(message);
         ServiceData.instance().store(model.getCurrentUser().getId());
         model.commit(Model.CHAT);
     }
 
-    public void searchContacts(String filtro) throws Exception {
+    public void buscarContactos(String filtro) throws Exception {
         model.setContactsList(ServiceData.instance().contactWith(filtro));
         model.commit(Model.USER);
     }
-    public void updateContacts() throws Exception {
+    public void actualizarContacttos() throws Exception {
         model.setContactsList(ServiceData.instance().contacts());
         ServiceData.instance().store(model.getCurrentUser().getId());
         model.commit(Model.USER);
@@ -100,12 +89,12 @@ public class Controller {
 
 
     public void updateEstado(String id, boolean estado){
-        ServiceData.instance().updateContact(id, estado);
+        ServiceData.instance().actualizarContacto(id, estado);
         model.setContactsList(ServiceData.instance().contacts());
         model.commit(model.USER);
         ServiceData.instance().store(model.getCurrentUser().getId());
     }
-    public void addUnReadMessages(List<Message> unReadMessages){
+    public void addNoleidos(List<Message> unReadMessages){
         for(Message m: unReadMessages){
             ServiceData.instance().addMessage(m);
         }
@@ -119,10 +108,4 @@ public class Controller {
         model.setId(id);
         model.commit(model.CHAT);
     }
-    public void obtieneSelected(int row) throws IOException {
-        model.selected = model.getContactsList().get(row);
-        model.getContactsList().set(row,model.selected);
-    }
-
-
 }

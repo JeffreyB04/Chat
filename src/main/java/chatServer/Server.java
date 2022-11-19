@@ -47,7 +47,7 @@ public class Server {
                 switch (method) {
                     case Protocol.LOGIN:
                         try {
-                            User user = service.login((User) in.readObject()); //el login de abajo no se usa?
+                            User user = service.login((User) in.readObject());
                             user.setEstado(true);
                             out.writeInt(Protocol.ERROR_NO_ERROR);
                             out.writeObject(user);
@@ -90,18 +90,7 @@ public class Server {
     }
 
 
-    public void deliver(Message message){
-        /*for(Worker wk:workers){
-            //wk.deliver(message);
-            if(message.getReceiver().equals(wk.user)){
-                wk.deliver(message);
-            }
-            if(message.getSender().equals(wk.user)){
-                wk.deliver(message);
-            }
-        }
-
-         */
+    public void deliver(Message message) throws Exception {
         int contador = 0;
         for(Worker wk : workers) {
             if (wk.user.equals(message.getReceiver())) {
@@ -127,7 +116,7 @@ public class Server {
             }
         }
     }
-    public boolean checkStatus(User u){
+    public boolean checkEstado(User u){
         for (Worker wk: workers){
             if(wk.user.equals(u)){
                 return true;

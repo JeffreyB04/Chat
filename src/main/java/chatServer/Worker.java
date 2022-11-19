@@ -59,7 +59,6 @@ public class Worker {  //empieza cuando se logea
                             srv.updateEstado(user.getId(), user.isEstado());
                             srv.remove(user);
                             stop();
-                            //service.logout(user); //nothing to do
                         } catch (Exception ex) {}
                         break;
                     case Protocol.POST:
@@ -70,12 +69,14 @@ public class Worker {  //empieza cuando se logea
                             srv.deliver(message);
                             //service.post(message); // if wants to save messages, ex. recivier no logged on
                             System.out.println(user.getNombre()+": "+message.getMessage());
-                        } catch (ClassNotFoundException ex) {}
+                        } catch (ClassNotFoundException ex) {} catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
                         break;
                     case Protocol.CONTACT:
                         try {
                             User user = service.checkContact((String)in.readObject());
-                            user.setEstado(srv.checkStatus(user));
+                            user.setEstado(srv.checkEstado(user));
                             if(!user.equals(this.user)){
                                 out.writeInt(Protocol.CONTACT_RESPONSE);
                                 out.writeInt(Protocol.ERROR_NO_ERROR);
@@ -94,7 +95,7 @@ public class Worker {  //empieza cuando se logea
                         break;
                     case Protocol.UNREADMESSAGES:
                         try {
-                            List<Message> messages = service.unReadMessages((String)in.readObject());
+                            List<Message> messages = service.noLeido((String)in.readObject());
                             if (!messages.isEmpty()) {
                                 out.writeInt(Protocol.UNREADMESSAGES_RESPONSE);
                                 out.writeInt(Protocol.ERROR_NO_ERROR);
@@ -113,7 +114,7 @@ public class Worker {  //empieza cuando se logea
                         break;
                     case Protocol.DELETEREADMESSAGES:
                         try {
-                            service.deleteReadMessages((String)in.readObject());
+                            service.borrarNoLeido((String)in.readObject());
                         }catch (Exception ex){}
                         break;
                 }

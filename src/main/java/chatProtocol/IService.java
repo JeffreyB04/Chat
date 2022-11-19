@@ -8,6 +8,6 @@ public interface IService {
     public void post(Message m);
     public void register(User u) throws Exception;
     public User checkContact(String id) throws Exception;
-    public List<Message> unReadMessages(String receiver) throws Exception;
-    public void deleteReadMessages(String receiver) throws Exception;
+    public List<Message> noLeido(String receiver) throws Exception;
+    public void borrarNoLeido(String receiver) throws Exception;
 }

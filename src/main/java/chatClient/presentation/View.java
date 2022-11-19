@@ -12,7 +12,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
 import java.util.Observer;
 
 public class View implements Observer {
@@ -36,9 +35,6 @@ public class View implements Observer {
 
     Model model;
     Controller controller;
-
-    //a la hora de buscar se busca localmente en el data
-
     public View() {
         loginPanel.setVisible(true);
         Application.window.getRootPane().setDefaultButton(login);
@@ -50,7 +46,7 @@ public class View implements Observer {
         login.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                User u = new User(id.getText(), new String(clave.getPassword()), ""/*,"ONLINE"*/);
+                User u = new User(id.getText(), new String(clave.getPassword()), "");
                 id.setBackground(Color.white);
                 clave.setBackground(Color.white);
                 try {
@@ -67,24 +63,12 @@ public class View implements Observer {
         contactos.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-           /*     if (e.getClickCount() == 1){
-                    int row = contactos.getSelectedRow();
-                    try {
-                        controller.obtieneSelected(row);
-                    } catch (IOException ex) {
-                        throw new RuntimeException(ex);
-                    }
-                }
-
-            }
-        });
-
-            */
-                if (e.getClickCount() >= 1){
-                contactoFld.setText(controller.getContact(contactos.getSelectedRow()).getId());
-                contactoFld.setVisible(true);
-                controller.changeContact(contactoFld.getText());
-            }
+                 super.mouseClicked(e);
+                //if (e.getClickCount() == 1) {
+                    contactoFld.setText(controller.getContact(contactos.getSelectedRow()).getId());
+                    contactoFld.setVisible(true);
+                    controller.changeContact(contactoFld.getText());
+                //}
             }
         });
 
@@ -104,36 +88,15 @@ public class View implements Observer {
         post.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-          /*     String text = mensaje.getText();
-                try {
-                    controller.post(text, id.getText());
-                } catch (Exception ex) {
-                    throw new RuntimeException(ex);
-                }
-                mensaje.setText("");
-            }
-        });
-        //--------------------------------------------
-                     */
-
                 if (id.getText() != ""){
                     String text = mensaje.getText();
                     mensaje.setText("");
-                    controller.post(text, id.getText());
+                        controller.post(text, id.getText());
                 } else {
                     JOptionPane.showMessageDialog(panel, "Select a contact","ERROR",JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
-/*
-                int row = contactos.getSelectedRow();
-                //contactos.getClientProperty("index");
-                String text = mensaje.getText();
-                controller.post(text,id.getText());
-            }
-        });
-
- */
         register.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -153,21 +116,6 @@ public class View implements Observer {
         contactoButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                /*JTextField usernameContact = new JTextField("");
-                Object[] fields = {
-                        "Type your friend's username: ", usernameContact
-                };
-                int option = JOptionPane.showConfirmDialog(panel, fields, "Add contact", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
-                if(option == JOptionPane.OK_OPTION){
-                    try {
-                        controller.checkContact(usernameContact.getText());
-                    } catch (Exception ex){
-                        JOptionPane.showMessageDialog(panel, ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
-                    }
-                }
-            }
-        });
-                 */
                 contactoFld.setBackground(Color.white);
                 try {
                     User u = new User(contactoFld.getText(), " "," ");
@@ -184,10 +132,10 @@ public class View implements Observer {
             public void actionPerformed(ActionEvent e) {
                 try {
                     if(contactFld.getText().isEmpty()){
-                        controller.updateContacts();
+                        controller.actualizarContacttos();
                     }
                     else {
-                        controller.searchContacts(contactFld.getText());
+                        controller.buscarContactos(contactFld.getText());
                     }
                 } catch (Exception ex) {
                     throw new RuntimeException(ex);
@@ -228,42 +176,23 @@ public class View implements Observer {
             Application.window.setTitle(model.getCurrentUser().getNombre().toUpperCase());
             loginPanel.setVisible(false);
             bodyPanel.setVisible(true);
-            contactos.setVisible(true);
-
             Application.window.getRootPane().setDefaultButton(post);
             if ((prop & Model.CHAT) == Model.CHAT) {
                 this.messages.setText("");
                 String html = "<div style="+backStyle+">";
-                for (Message m : ServiceData.instance().chatWith(model.getCurrentUser().getId())) {
+                for (Message m : ServiceData.instance().searchMessage(model.getCurrentUser().getId())) {
                     if (m.getSender().equals(model.getCurrentUser()) && m.getReceiver().equals(model.getContact(model.id))) {
                         html += ("<div style=" + senderStyle + ">" + "Me: " + m.getMessage() + "</div>");
                     }
                     if (m.getReceiver().equals(model.getCurrentUser()) && m.getSender().equals(model.getContact(model.id))) {
-                        html += ("<div style=" + receiverStyle + ">" + m.getSender().getId() + ": " + m.getMessage() + "</div>");
+                        html += ("<div style=" + receiverStyle + ">" + m.getSender().getNombre() + ": " + m.getMessage() + "</div>");
                     }
                 }
                 html += "</div>";
                 this.messages.setText(html);
             }
-            //this.mensaje.setText("");
         }
-/*
 
-            if ((prop & Model.CHAT) == Model.CHAT) {
-                this.messages.setText("");
-                String text = "";
-                for (Message m : model.getMessages()) {
-                    if (m.getSender().equals(model.getCurrentUser())) {
-                        text += ("Me:" + m.getMessage() + "\n");
-                    }
-                    else {
-                        text += (m.getSender().getNombre() + ": " + m.getMessage() + "\n");
-                    }
-                }
-                this.messages.setText(text);
-            }
-            //this.mensaje.setText("");
-        } */
         int[] cols = {TableModel.ESTADO, TableModel.NOMBRE};
         contactos.setModel(new TableModel(cols, model.getContactsList()));
         contactos.setRowHeight(30);

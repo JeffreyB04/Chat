@@ -51,24 +51,19 @@ public class ServiceData {
         data.addContact(user);
     }
 
-    public List<User> searchByName(String filtro){
-        return data.getContacts().stream()
-                .filter(u->u.getNombre().contains(filtro))
-                .collect(Collectors.toList());
-    }
     public List<User> contactWith(String filter){
         return data.getContacts().stream()
                 .filter(u->u.getId().contains(filter))
                 .collect(Collectors.toList());
     }
 
-    public List<Message> chatWith(String filtro){
+    public List<Message> searchMessage(String filtro){
         return data.getMessages().stream()
                 .filter(m->m.getReceiver().getId().equals(filtro) || m.getSender().getId().equals(filtro))
                 .collect(Collectors.toList());
     }
 
-    public void updateContact(String codigo, boolean estado){
+    public void actualizarContacto(String codigo, boolean estado){
         for (User user: contacts()){
             if (user.getId().equals(codigo)){
                 user.setEstado(estado);

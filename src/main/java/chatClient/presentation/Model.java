@@ -15,12 +15,12 @@ public class Model extends java.util.Observable {
     User currentUser;
     User selected;
     List<Message> messages;
-    String id;
+    String id = "null";
     List<User> contactsList;
 
     public Model() {
         currentUser = null;
-        messages= new ArrayList<>();
+        //messages= new ArrayList<>();
         contactsList= new ArrayList<>();
         id = "null";
     }
@@ -59,9 +59,9 @@ public class Model extends java.util.Observable {
         this.messages = messages;
     }
 
-    public User getContact(String id){
+    public User getContact(String filtro){  //id al que lo manda
         for (User u : contactsList){
-            if (u.getId() == id){
+            if (u.getId().equals(filtro)){
                 return u;
             }
         }

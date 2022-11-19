@@ -130,25 +130,6 @@ public class ServiceProxy implements IService{
                             deliver(message);
                         } catch (ClassNotFoundException ex) {}
                         break;
-                    case Protocol.CONTACT:
-                        try {
-                            int serverAnswer = in.readInt();
-                            if (serverAnswer == Protocol.ERROR_NO_ERROR) {
-                                SwingUtilities.invokeLater(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        try {
-                                            controller.addContact((User) in.readObject());
-                                        } catch (Exception e) {
-                                            throw new RuntimeException(e);
-                                        }
-                                    }
-                                });
-                            } else if (serverAnswer == Protocol.ERROR_CONTACT) {}
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-                        break;
                     case Protocol.CONTACT_RESPONSE:
                         try {
                             int error = in.readInt();
@@ -156,9 +137,9 @@ public class ServiceProxy implements IService{
                                 User user= (User)in.readObject();
                                 addContact(user);
                             } else if (error == Protocol.ERROR_CONTACT) {
-                                controller.errorContact("Username don't exist");
+                                controller.errorContact("id no existe");
                             } else if (error == Protocol.ERROR_CONTACT_EQUAL){
-                                controller.errorContact("The username pertain of you");
+                                controller.errorContact(" id ");
                             }
                         } catch (Exception ex){}
                         break;
@@ -167,7 +148,7 @@ public class ServiceProxy implements IService{
                             int error = in.readInt();
                             if (error == Protocol.ERROR_NO_ERROR){
                                 List<Message> messages = (List<Message>)in.readObject();
-                                addUnReadMessages(messages);
+                                addNoleido(messages);
                             }
                         }catch (Exception ex){}
                         break;
@@ -194,23 +175,23 @@ public class ServiceProxy implements IService{
                                    }
         );
     }
-    private void addUnReadMessages(final List<Message> messages){
+    private void addNoleido(final List<Message> messages){
         SwingUtilities.invokeLater(new Runnable(){
                                        public void run(){
-                                           controller.addUnReadMessages(messages);
+                                           controller.addNoleidos(messages);
                                        }
                                    }
         );
     }
 
-    public List<Message> unReadMessages(String receiver) throws Exception{
+    public List<Message> noLeido(String receiver) throws Exception{
         out.writeInt(Protocol.UNREADMESSAGES);
         out.writeObject(receiver);
         out.flush();
         return null;
     }
 
-    public void deleteReadMessages(String receiver) throws Exception{
+    public void borrarNoLeido(String receiver) throws Exception{
         out.writeInt(Protocol.DELETEREADMESSAGES);
         out.writeObject(receiver);
         out.flush();

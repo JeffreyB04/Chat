@@ -6,8 +6,6 @@
 package chatProtocol;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class User implements Serializable{
@@ -17,7 +15,7 @@ public class User implements Serializable{
 
     boolean estado;
 
-    public User(String id, String clave, String nombre/*,String estado*/) {
+    public User(String id, String clave, String nombre) {
         this.id = id;
         this.clave = clave;
         this.nombre = nombre;

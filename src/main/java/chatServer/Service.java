@@ -13,13 +13,12 @@ public class Service implements IService{
     private UsuarioDao usuarioDao;
     private MensajeDao mensajeDao;
     public Service() {
-        //data =  new Data();
         usuarioDao=new UsuarioDao();
         mensajeDao=new MensajeDao();
     }
-    public void post(Message m){
+    public void post(Message m) {
         try {
-            mensajeDao.insertMessage(m);
+            mensajeDao.createM(m);
         } catch (Exception ex){}
     }
     public User login(User p) throws Exception{
@@ -43,11 +42,11 @@ public class Service implements IService{
         return usuarioDao.getUser(id);
     }
 
-    public List<Message> unReadMessages(String receiver) throws Exception{
-        return mensajeDao.unReadMessages(receiver);
+    public List<Message> noLeido(String receiver) throws Exception{
+        return mensajeDao.noLeidos(receiver);
     }
 
-    public void deleteReadMessages(String receiver) throws Exception{
-        mensajeDao.deleteReadMessages(receiver);
+    public void borrarNoLeido(String receiver) throws Exception{
+        mensajeDao.borrarMensajes(receiver);
     }
 }
